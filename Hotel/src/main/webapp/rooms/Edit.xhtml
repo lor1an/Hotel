@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RoomsEditDlg" widgetVar="RoomsEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditRoomsTitle}" closeOnEscape="true">
+
+            <h:form id="RoomsEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{roomsController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditRoomsLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{roomsController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditRoomsLabel_capcity}" for="capcity" />
+                        <p:inputText id="capcity" value="#{roomsController.selected.capcity}" title="#{myBundle.EditRoomsTitle_capcity}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRoomsLabel_cost}" for="cost" />
+                        <p:inputText id="cost" value="#{roomsController.selected.cost}" title="#{myBundle.EditRoomsTitle_cost}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRoomsLabel_number}" for="number" />
+                        <p:inputText id="number" value="#{roomsController.selected.number}" title="#{myBundle.EditRoomsTitle_number}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRoomsLabel_roomNumber}" for="roomNumber" />
+                        <p:inputText id="roomNumber" value="#{roomsController.selected.roomNumber}" title="#{myBundle.EditRoomsTitle_roomNumber}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{roomsController.save}" value="#{myBundle.Save}" update="display,:RoomsListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,RoomsEditDialog);">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RoomsEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -10,51 +10,82 @@
     <h:head>
     </h:head>
     <h:body>
-        
-        <h:form>          
-            <p:growl id="message"  />
-
-            <p:commandButton value="Login" actionListener="#{dialogView.destroyWorld}" update="message">
-                <p:confirm header="Login" />
-            </p:commandButton>
-
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade"  style="icon: null">
-                <h:panelGrid id="grid" cellpadding="5" columns="2" style="margin-bottom:10px">
-
-                    <p:outputLabel for="firstname" value="Firstname:" />
-                    <p:inputText id="firstname" value="#{userView.firstname}" />
-                    <p:outputLabel for="surname" value="Surname:" />
-                    <p:inputText id="surname" value="#{userView.lastname}" required="true" requiredMessage="Surname is required." />
+        <h:panelGrid columns="2" cellpadding="1">
+            <h:form>          
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:commandButton value="Sign in" type="button" onclick="PF('loginDialog').show();" />
                 </h:panelGrid>
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
-        </h:form>
-        <h:form id="form">
-
-            <p:growl id="msgs" showDetail="true" />
-
-
-            <p:tabView>
-                <p:tab title="Godfather Part I">
-                    <h:panelGrid columns="2" cellpadding="10">
-                        <p:graphicImage name="demo/images/godfather/godfather1.jpg" />
-                        <h:outputText
-                            value="The story begins as Don Vito Corleone..." />
+                <p:dialog header="Sign in" widgetVar="loginDialog" modal="true" height="150" resizable="false">
+                    <h:panelGrid id="grid" cellpadding="5" columns="2" style="margin-bottom:10px">
+                        <p:outputLabel for="login" value="Login:"/>
+                        <p:inputText id="login" value="#{userView.firstname}"/>
+                        <h:outputLabel for="pwd1" value="Password:" />
+                        <p:password id="pwd1" value="#{passwordView.password5}" required="true" />
+                        <p:commandButton value="Login" type="button"/>
+                        <p:commandButton value="Close" type="button" />
                     </h:panelGrid>
+                </p:dialog>  
+
+
+
+            </h:form>
+            <h:form>          
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:commandButton value="Register" type="button" onclick="PF('registerDialog').show();" />
+                </h:panelGrid>
+                <p:dialog header="Register" widgetVar="registerDialog" modal="true" height="150" resizable="false">
+                    <h:panelGrid id="grid" cellpadding="5" columns="2" style="margin-bottom:10px">
+                        <p:outputLabel for="login" value="Login:"/>
+                        <p:inputText id="login" value="#{userView.firstname}"/>
+                        <h:outputLabel for="pwd1" value="Password:" />
+                        <p:password id="pwd1" value="#{passwordView.password5}" required="true" />
+                        <p:commandButton value="Login" type="button"/>
+                        <p:commandButton value="Close" type="button" />
+                    </h:panelGrid>
+                </p:dialog>  
+
+
+
+            </h:form>
+        </h:panelGrid>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:tabView>
+                <p:tab title="All rooms">
+                    <p:dataTable var="car" value="#{dtBasicView.cars}">
+                        <p:column headerText="Id">
+                            <h:outputText value="#{car.id}" />
+                        </p:column>
+
+                        <p:column headerText="Year">
+                            <h:outputText value="#{car.year}" />
+                        </p:column>
+
+                        <p:column headerText="Brand">
+                            <h:outputText value="#{car.brand}" />
+                        </p:column>
+
+                        <p:column headerText="Color">
+                            <h:outputText value="#{car.color}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:tab>
-                <p:tab title="Godfather Part II">
+                <p:tab title="Free Rooms">
                     <h:panelGrid columns="2" cellpadding="10">
-                        <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
                         <h:outputText value="Francis Ford Coppola's legendary..." />
                     </h:panelGrid>
                 </p:tab>
-                <p:tab title="Godfather Part III">
+                <p:tab title="Occupied rooms">
                     <h:panelGrid columns="2" cellpadding="10">
-                        <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
                         <h:outputText value="After a break of more than 15 years..." />
                     </h:panelGrid>
                 </p:tab>
+                <p:tab title="Reserved rooms">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <h:outputText value="After a break of more than 15 years..." />
+                    </h:panelGrid>
+                </p:tab>
+
             </p:tabView>
 
 
