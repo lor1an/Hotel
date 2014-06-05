@@ -3,30 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.epam.hotel.domain;
 
-
+import com.epam.hotel.repository.RoomRepository;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author lor1an
+ * @author Anatolii_Hlazkov
  */
 @Stateless
-public class RoomsFacade extends AbstractFacade<Room> {
+public class RoomService {
+
     @PersistenceContext(unitName = "COLIBRI")
-    private EntityManager em;
+    private EntityManager manager;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    public List<Room> getRoom() {
+        RoomRepository rr = new RoomRepository(manager);
+        return rr.getAllRooms();
     }
-
-    public RoomsFacade() {
-        super(Room.class);
-    }
-    
 }
