@@ -6,48 +6,96 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+    <style>    body {
+            background:palegoldenrod
 
+        }</style>
     <h:head>
+        <title>Hotel</title>
     </h:head>
-    <h:body>
+    <h:body >
+
+
         <h:panelGrid columns="2" cellpadding="1">
-            <h:form>          
+            <h:form>           
                 <h:panelGrid columns="1" cellpadding="5">
-                    <p:commandButton value="Sign in" type="button" onclick="PF('loginDialog').show();" />
+                    <p:commandButton value="Login" action="javascript:void(0)" type="button" onclick="PF('dlg').show();" />
                 </h:panelGrid>
-                <p:dialog header="Sign in" widgetVar="loginDialog" modal="true" height="150" resizable="false" >
-                    <h:panelGrid id="grid" cellpadding="5" columns="2" style="margin-bottom:10px">
-                        <p:outputLabel for="login" value="Login:"/>
-                        <p:inputText id="login" value="#{userView.firstname}"/>
-                        <h:outputLabel for="pwd1" value="Password:" />
-                        <p:password id="pwd1" value="#{passwordView.password5}" required="true" />
-                        <p:commandButton value="Login" type="button"/>
-                        <p:commandButton value="Close" type="button" />
+                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+                <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="#{userLoginView.username}" required="true" label="username" />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" />
+                        </f:facet> 
                     </h:panelGrid>
-                </p:dialog>  
-
-
-
+                </p:dialog>
             </h:form>
-            <h:form>          
+            <h:form>           
                 <h:panelGrid columns="1" cellpadding="5">
-                    <p:commandButton value="Register" type="button" onclick="PF('registerDialog').show();" />
+                    <p:commandButton value="Register" action="javascript:void(0)" type="button" onclick="PF('dlg').show();" />
                 </h:panelGrid>
-                <p:dialog header="Register" widgetVar="registerDialog" modal="true" height="150" resizable="false">
-                    <h:panelGrid id="grid" cellpadding="5" columns="2" style="margin-bottom:10px">
-                        <p:outputLabel for="login" value="Login:"/>
-                        <p:inputText id="login" value="#{userView.firstname}"/>
-                        <h:outputLabel for="pwd1" value="Password:" />
-                        <p:password id="pwd1" value="#{passwordView.password5}" required="true" />
-                        <p:commandButton value="Login" type="button"/>
-                        <p:commandButton value="Close" type="button" />
+                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+                <p:dialog header="Register" widgetVar="dlg" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="name" value="Name:" />
+                        <p:inputText id="name" value="" required="true" label="name" />
+
+                        <h:outputLabel for="surname" value="Surname:" />
+                        <p:inputText id="surname" value="" required="true" label="surname" />
+
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="" required="true" label="username" />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
+
+                        <h:outputLabel for="pwd1" value="Password 1: *" />                        
+                        <p:password  id="pwd1" value="" match="pwd2" label="Password 1" required="true" />
+
+                        <h:outputLabel for="pwd2" value="Password 2: *" />
+                        <p:password id="pwd2" value="" label="Password 2" required="true" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" />
+                        </f:facet> 
                     </h:panelGrid>
-                </p:dialog>  
+                </p:dialog>
             </h:form>
+
+
+            <script type="text/javascript">
+                function handleLoginRequest(xhr, status, args) {
+                    if (args.validationFailed || !args.loggedIn) {
+                        args = "";
+                        PF('dlg').jq.effect("shake", {times: 5}, 100);
+                    }
+                    else {
+                        PF('dlg').hide();
+                        $('#loginLink').fadeOut();
+                    }
+                }
+
+                document.getElementById('usernameField').onchange = function() {
+                    if (this.value === '') {
+                        document.getElementById('passwordField').value = '';
+                    }
+                };
+            </script>
         </h:panelGrid>
+        <!--        <p:separator style="height:10px; color: black" />-->
         <h:form id="form">
             <p:growl id="msgs" showDetail="true" />
-            <p:tabView id="tview">
+            <p:tabView id="tview" style="color: black" >
                 <p:tab  title="All rooms">
                     <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
