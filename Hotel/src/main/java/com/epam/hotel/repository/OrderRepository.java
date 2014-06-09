@@ -36,12 +36,12 @@ public class OrderRepository {
     }
 
     public List<Order> getAllOrders() {
-        TypedQuery<Order> orderQuery = entityManager.createNamedQuery("Order.getAllRooms", Order.class);
+        TypedQuery<Order> orderQuery = entityManager.createNamedQuery("Order.getAllOrders", Order.class);
         return orderQuery.getResultList();
     }
 
     public Order getOrderById(int id) {
-        TypedQuery<Order> orderQuery = entityManager.createNamedQuery("Order.getRoomById", Order.class);
+        TypedQuery<Order> orderQuery = entityManager.createNamedQuery("Order.getOrderById", Order.class);
         orderQuery.setParameter("id", id);
         return orderQuery.getSingleResult();
     }
@@ -58,6 +58,8 @@ public class OrderRepository {
             }
         }
     }
+
+  
 
     public void udpateOrder(Order order) {
         try {

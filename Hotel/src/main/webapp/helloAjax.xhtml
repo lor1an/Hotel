@@ -7,276 +7,98 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <style>    body {
-            background:palegoldenrod
+            background: palegoldenrod;
+        }
+        .parent {
+            /*            margin: 20%;  Отступы вокруг элемента */
+            margin-left: 14%;
+            margin-right: 14%;
+            // background: #fd0; /* Цвет фона */
+            //  padding: 10px;  Поля вокруг текста */
+        } 
+        .imgTop{
+            margin-top: 0;
 
-        }</style>
+            margin-left: 25%;
+            margin-right: 25%;
+        }
+        //  .topim{position: absolute; top: 0; left: 0; width: 100%;  }
+    </style>
     <h:head>
         <title>Hotel</title>
     </h:head>
     <h:body >
-
-
-        <h:panelGrid columns="2" cellpadding="1">
-            <h:form>           
-                <h:panelGrid columns="1" cellpadding="5">
-                    <p:commandButton value="Login" action="javascript:void(0)" type="button" onclick="PF('dlg').show();" />
-                </h:panelGrid>
-                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
-                <p:dialog header="Login" widgetVar="dlg" resizable="false">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputLabel for="username" value="Username:" />
-                        <p:inputText id="username" value="#{userLoginView.username}" required="true" label="username" />
-
-                        <h:outputLabel for="password" value="Password:" />
-                        <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}"
-                                             oncomplete="handleLoginRequest(xhr, status, args)" />
-                        </f:facet> 
-                    </h:panelGrid>
-                </p:dialog>
-            </h:form>
-            <h:form>           
-                <h:panelGrid columns="1" cellpadding="5">
-                    <p:commandButton value="Register" action="javascript:void(0)" type="button" onclick="PF('dlg').show();" />
-                </h:panelGrid>
-                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
-                <p:dialog header="Register" widgetVar="dlg" resizable="false">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:outputLabel for="name" value="Name:" />
-                        <p:inputText id="name" value="" required="true" label="name" />
-
-                        <h:outputLabel for="surname" value="Surname:" />
-                        <p:inputText id="surname" value="" required="true" label="surname" />
-
-                        <h:outputLabel for="username" value="Username:" />
-                        <p:inputText id="username" value="" required="true" label="username" />
-
-                        <h:outputLabel for="password" value="Password:" />
-                        <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
-
-                        <h:outputLabel for="pwd1" value="Password 1: *" />                        
-                        <p:password  id="pwd1" value="" match="pwd2" label="Password 1" required="true" />
-
-                        <h:outputLabel for="pwd2" value="Password 2: *" />
-                        <p:password id="pwd2" value="" label="Password 2" required="true" />
-
-                        <f:facet name="footer">
-                            <p:commandButton value="Login" update="growl" actionListener="#{userLoginView.login}"
-                                             oncomplete="handleLoginRequest(xhr, status, args)" />
-                        </f:facet> 
-                    </h:panelGrid>
-                </p:dialog>
-            </h:form>
-
-
-            <script type="text/javascript">
-                function handleLoginRequest(xhr, status, args) {
-                    if (args.validationFailed || !args.loggedIn) {
-                        args = "";
-                        PF('dlg').jq.effect("shake", {times: 5}, 100);
-                    }
-                    else {
-                        PF('dlg').hide();
-                        $('#loginLink').fadeOut();
-                    }
-                }
-
-                document.getElementById('usernameField').onchange = function() {
-                    if (this.value === '') {
-                        document.getElementById('passwordField').value = '';
-                    }
-                };
-            </script>
-        </h:panelGrid>
-        <!--        <p:separator style="height:10px; color: black" />-->
-        <h:form id="form">
+        <h:graphicImage value="/18_1.jpg" styleClass="imgTop"></h:graphicImage>
+        <h:form id="formdate">
             <p:growl id="msgs" showDetail="true" />
-            <p:tabView id="tview" style="color: black" >
-                <p:tab  title="All rooms">
-                    <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable1" lazy="true">
-                        <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:tview:carDetail1" oncomplete="PF('carDialog1').show()" />
-                        <p:column headerText="Id" sortBy="#{car.id}" filterBy="#{car.id}">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-                        <p:column headerText="Year" sortBy="#{car.year}" filterBy="#{car.year}">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-                        <p:column headerText="Brand" sortBy="#{car.brand}" filterBy="#{car.brand}">
-                            <h:outputText value="#{car.brand}" />
-                        </p:column>
-                        <p:column headerText="Color" sortBy="#{car.color}" filterBy="#{car.color}">
-                            <h:outputText value="#{car.color}" />
-                        </p:column>
-                    </p:dataTable>
 
-                    <p:dialog header="Car Detail" widgetVar="carDialog1" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="carDetail1" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedCar}" columnClasses="label,value">
-                                <f:facet name="header">
-                                </f:facet>
+            <h:panelGrid columns="2" cellpadding="5">
 
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.id}" />
-
-                                <h:outputText value="Year" />
-                                <h:outputText value="#{dtLazyView.selectedCar.year}" />
-
-                                <h:outputText value="Color:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.color}" style="color:#{dtLazyView.selectedCar.color}"/>
-
-                                <h:outputText value="Price:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.price}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
+                <p:outputLabel for="popup" value="Popup:" />
+                <p:calendar id="popup" value="#{findRoomController.bounds}" />
 
 
-                </p:tab>
-                <p:tab title="Free Rooms">
-                    <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable2" lazy="true">
-                        <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:tview:carDetail2" oncomplete="PF('carDialog2').show()" />
-                        <p:column headerText="Id" sortBy="#{car.id}" filterBy="#{car.id}">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-                        <p:column headerText="Year" sortBy="#{car.year}" filterBy="#{car.year}">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-                        <p:column headerText="Brand" sortBy="#{car.brand}" filterBy="#{car.brand}">
-                            <h:outputText value="#{car.brand}" />
-                        </p:column>
-                        <p:column headerText="Color" sortBy="#{car.color}" filterBy="#{car.color}">
-                            <h:outputText value="#{car.color}" />
-                        </p:column>
-                    </p:dataTable>
+            </h:panelGrid>
 
-                    <p:dialog header="Car Detail" widgetVar="carDialog2" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="carDetail2" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedCar}" columnClasses="label,value">
-                                <f:facet name="header">
-                                </f:facet>
-
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.id}" />
-
-                                <h:outputText value="Year" />
-                                <h:outputText value="#{dtLazyView.selectedCar.year}" />
-
-                                <h:outputText value="Color:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.color}" style="color:#{dtLazyView.selectedCar.color}"/>
-
-                                <h:outputText value="Price:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.price}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
-
-
-                </p:tab>
-                <p:tab title="Occupied rooms">
-                    <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable3" lazy="true">
-                        <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:tview:carDetail3" oncomplete="PF('carDialog3').show()" />
-                        <p:column headerText="Id" sortBy="#{car.id}" filterBy="#{car.id}">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-                        <p:column headerText="Year" sortBy="#{car.year}" filterBy="#{car.year}">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-                        <p:column headerText="Brand" sortBy="#{car.brand}" filterBy="#{car.brand}">
-                            <h:outputText value="#{car.brand}" />
-                        </p:column>
-                        <p:column headerText="Color" sortBy="#{car.color}" filterBy="#{car.color}">
-                            <h:outputText value="#{car.color}" />
-                        </p:column>
-                    </p:dataTable>
-
-                    <p:dialog header="Car Detail" widgetVar="carDialog3" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="carDetail3" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedCar}" columnClasses="label,value">
-                                <f:facet name="header">
-                                </f:facet>
-
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.id}" />
-
-                                <h:outputText value="Year" />
-                                <h:outputText value="#{dtLazyView.selectedCar.year}" />
-
-                                <h:outputText value="Color:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.color}" style="color:#{dtLazyView.selectedCar.color}"/>
-
-                                <h:outputText value="Price:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.price}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
-
-
-                </p:tab>
-                <p:tab title="Reserved rooms">
-                    <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable4" lazy="true">
-                        <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:tview:carDetail4" oncomplete="PF('carDialog4').show()" />
-                        <p:column headerText="Id" sortBy="#{car.id}" filterBy="#{car.id}">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-                        <p:column headerText="Year" sortBy="#{car.year}" filterBy="#{car.year}">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-                        <p:column headerText="Brand" sortBy="#{car.brand}" filterBy="#{car.brand}">
-                            <h:outputText value="#{car.brand}" />
-                        </p:column>
-                        <p:column headerText="Color" sortBy="#{car.color}" filterBy="#{car.color}">
-                            <h:outputText value="#{car.color}" />
-                        </p:column>
-                    </p:dataTable>
-
-                    <p:dialog header="Car Detail" widgetVar="carDialog4" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="carDetail4" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedCar}" columnClasses="label,value">
-                                <f:facet name="header">
-                                </f:facet>
-
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.id}" />
-
-                                <h:outputText value="Year" />
-                                <h:outputText value="#{dtLazyView.selectedCar.year}" />
-
-                                <h:outputText value="Color:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.color}" style="color:#{dtLazyView.selectedCar.color}"/>
-
-                                <h:outputText value="Price:" />
-                                <h:outputText value="#{dtLazyView.selectedCar.price}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
-
-
-                </p:tab>
-
-            </p:tabView>
+            <p:commandButton value="Submit" update="msgs" actionListener="#{findRoomController.click}" icon="ui-icon-check" />
 
 
         </h:form>
 
+        <div class="parent">
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true" />
+                <p:tabView id="tview" style="color: black" >
+                    <p:tab  title="All rooms">
+                        <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedRoom}" id="carTable1" lazy="true">
+                            <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:tview:carDetail1" oncomplete="PF('carDialog1').show()" />
+                            <p:column >
+                                <h:graphicImage value="/18_1.jpg" height="100px" width="100px"></h:graphicImage>
+                            </p:column>
+                            <p:column headerText="Number" sortBy="#{car.roomNumber}" filterBy="#{car.id}">
+                                <h:outputText value="#{car.roomNumber}" />
+                            </p:column>
+                            <p:column headerText="Capacity" sortBy="#{car.capacity}" filterBy="#{car.year}">
+                                <h:outputText value="#{car.capacity}" />
+                            </p:column>
+                            <p:column headerText="Cost" sortBy="#{car.cost}" filterBy="#{car.brand}">
+                                <h:outputText value="#{car.cost}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="Car Detail" widgetVar="carDialog1" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:outputPanel id="carDetail1" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedRoom}" columnClasses="label,value">
+                                    <f:facet name="header">
+                                    </f:facet>
+
+                                    <h:outputText value="Id:" />
+                                    <h:outputText value="#{dtLazyView.selectedRoom.id}" />
+
+                                    <h:outputText value="Year" />
+                                    <h:outputText value="#{dtLazyView.selectedRoom.year}" />
+
+                                    <h:outputText value="Color:" />
+                                    <h:outputText value="#{dtLazyView.selectedRoom.color}" style="color:#{dtLazyView.selectedRoom.color}"/>
+
+                                    <h:outputText value="Price:" />
+                                    <h:outputText value="#{dtLazyView.selectedRoom.price}">
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </h:outputText>
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+
+
+                    </p:tab>
+
+
+                </p:tabView>
+
+
+            </h:form>
+        </div>
     </h:body>
 </html>

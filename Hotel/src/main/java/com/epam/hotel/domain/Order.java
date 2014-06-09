@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -30,7 +31,11 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "orders")
-@NamedQuery(name = "Order.getAll", query = "SELECT o from Order o")
+@NamedQueries({
+    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o"),
+    
+}
+)
 public class Order implements Serializable {
 
     @Id
@@ -46,7 +51,7 @@ public class Order implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date toDate;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Customer customer;
+    private Client client;
     @ManyToOne(cascade = CascadeType.ALL)
     private Manager manager;
     @Enumerated(EnumType.ORDINAL)
@@ -70,8 +75,8 @@ public class Order implements Serializable {
         return id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Client getClient() {
+        return client;
     }
 
     public Manager getManager() {
@@ -102,8 +107,8 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public void setManager(Manager manager) {

@@ -20,11 +20,11 @@ import javax.persistence.Table;
  * @author Anatolii_Hlazkov
  */
 @Entity
-@Table(name = "customers")
-@NamedQuery(name = "Customer.getAllCustomers", query = "SELECT c from Customer c")
+@Table(name = "clients")
+@NamedQuery(name = "Client.getAllClients", query = "SELECT c from Client c")
 @Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn
-public class Customer extends User {
+public class Client extends User {
 
     @Column(name = "phone", length = 32)
     private String phone;
@@ -35,10 +35,11 @@ public class Customer extends User {
     @Column(name = "city", length = 32)
     private String city;
     @Column(name = "region", length = 32)
-    private String state;
+    private String region;
 
-//    @OneToMany(mappedBy = "customer")
-//    private List<Order> customerOrders;
+    @OneToMany(mappedBy = "client")
+    private List<Order> clientOrders;
+
     public String getPhone() {
         return phone;
     }
@@ -55,13 +56,13 @@ public class Customer extends User {
         return city;
     }
 
-    public String getState() {
-        return state;
+    public String getRegion() {
+        return region;
     }
-//
-//    public List<Order> getCustomerOrders() {
-//        return customerOrders;
-//    }
+
+    public List<Order> getClientOrders() {
+        return clientOrders;
+    }
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -79,11 +80,11 @@ public class Customer extends User {
         this.city = city;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-//    public void setCustomerOrders(List<Order> customerOrders) {
-//        this.customerOrders = customerOrders;
-//    }
+    public void setClientOrders(List<Order> clientOrders) {
+        this.clientOrders = clientOrders;
+    }
 }

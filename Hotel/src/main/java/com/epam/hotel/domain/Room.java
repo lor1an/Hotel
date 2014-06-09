@@ -23,7 +23,14 @@ import javax.persistence.Table;
 @Table(name = "rooms")
 @NamedQueries({
     @NamedQuery(name = "Room.getAllRooms", query = "SELECT r FROM Room r"),
-    @NamedQuery(name = "Room.getRoomById", query = "SELECT r FROM Room r WHERE r.id=:id")})
+    @NamedQuery(name = "Room.getRoomById", query = "SELECT r FROM Room r WHERE r.id=:id"),
+    @NamedQuery(name = "Room.getFreeRooms", query = "SELECT r  FROM Room r"
+            + " WHERE NOT EXISTS"
+            + "(SELECT o.room from Order o WHERE o.status!=:status)"),
+    @NamedQuery(name = "Room.getFreeRooom", query = "SELECT r FROM Room r"
+            + " WHERE EXISTS"
+            + "(SELECT o.room from Order o WHERE o.status!=:status "
+            + "AND (o.fromDate>:departure OR o.toDate<:arrival))")})
 public class Room implements Serializable {
 
     @Id
@@ -36,7 +43,7 @@ public class Room implements Serializable {
     @Column(name = "cost")
     private Integer cost;
 
-    @Column(name = "capcity")
+    @Column(name = "capacity")
     private Integer capacity;
 
     public Integer getId() {
@@ -75,4 +82,5 @@ public class Room implements Serializable {
     public String toString() {
         return "Room{" + "id=" + id + ", roomNumber=" + roomNumber + ", cost=" + cost + ", capacity=" + capacity + '}';
     }
+
 }

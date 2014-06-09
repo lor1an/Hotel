@@ -7,6 +7,8 @@ package com.epam.hotel.repository;
 
 import com.epam.hotel.domain.Room;
 import com.epam.hotel.domain.User;
+import com.epam.hotel.domain.enums.OrderStatus;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -59,7 +61,7 @@ public class RoomRepository {
     }
 
     public void udpateRoom(Room room) {
-            try {
+        try {
             entityManager.getTransaction().begin();
             entityManager.merge(room);
             entityManager.getTransaction().commit();
@@ -83,5 +85,18 @@ public class RoomRepository {
                 }
             }
         }
+    }
+
+    public List<Room> getFreeRooms(Date arrival, Date departure) {
+        TypedQuery<Room> roomQuery1 = entityManager.createNamedQuery("Room.getFreeRooms", Room.class);
+        TypedQuery<Room> roomQuery2 = entityManager.createNamedQuery("Room.getFreeRooom", Room.class);
+        roomQuery1.setParameter("status", OrderStatus.CLOSED);
+        roomQuery2.setParameter("status", OrderStatus.CLOSED);
+        roomQuery2.setParameter("arrival", arrival);
+        roomQuery2.setParameter("departure", departure);
+        List list = roomQuery1.getResultList();
+        list.addAll(roomQuery2.getResultList());
+        return list;
+
     }
 }

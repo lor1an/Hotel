@@ -5,7 +5,7 @@
  */
 package com.epam.hotel.repository;
 
-import com.epam.hotel.domain.Customer;
+import com.epam.hotel.domain.Client;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -14,14 +14,14 @@ import javax.persistence.TypedQuery;
  *
  * @author Anatolii_Hlazkov
  */
-public class CustomerRepository {
+public class ClientRepository {
 
     private EntityManager entityManager;
 
-    public CustomerRepository() {
+    public ClientRepository() {
     }
 
-    public CustomerRepository(EntityManager entityManager) {
+    public ClientRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -33,21 +33,21 @@ public class CustomerRepository {
         this.entityManager = entityManager;
     }
 
-    public List<Customer> getAllCustomers() {
-        TypedQuery<Customer> customerQuery = entityManager.createNamedQuery("Customer.getAllCustomers", Customer.class);
-        return customerQuery.getResultList();
+    public List<Client> getAllClients() {
+        TypedQuery<Client> clientQuery = entityManager.createNamedQuery("Client.getAllClients", Client.class);
+        return clientQuery.getResultList();
     }
 
-    public Customer getCustomerById(int id) {
-        TypedQuery<Customer> customerQuery = entityManager.createNamedQuery("Customer.getCustomerById", Customer.class);
-        customerQuery.setParameter("id", id);
-        return customerQuery.getSingleResult();
+    public Client getClientById(int id) {
+        TypedQuery<Client> clientQuery = entityManager.createNamedQuery("Client.getClientById", Client.class);
+        clientQuery.setParameter("id", id);
+        return clientQuery.getSingleResult();
     }
 
-    public void insertCustomer(Customer customer) {
+    public void insertClient(Client client) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(customer);
+            entityManager.persist(client);
             entityManager.getTransaction().commit();
         } finally {
             if (entityManager.getTransaction().isActive()) {
@@ -56,10 +56,10 @@ public class CustomerRepository {
         }
     }
 
-    public void udpateCustomer(Customer customer) {
+    public void udpateClient(Client client) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(customer);
+            entityManager.merge(client);
             entityManager.getTransaction().commit();
         } finally {
             if (entityManager.getTransaction().isActive()) {
@@ -68,8 +68,8 @@ public class CustomerRepository {
         }
     }
 
-    public void deleteCustomer(Customer customer) {
-        Customer temp = entityManager.find(Customer.class, customer.getId());
+    public void deleteClient(Client client) {
+        Client temp = entityManager.find(Client.class, client.getId());
         if (temp != null) {
             try {
                 entityManager.getTransaction().begin();

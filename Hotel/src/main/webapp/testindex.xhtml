@@ -13,7 +13,7 @@
         <h:form id="form">
             <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable" lazy="true">
+                         rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedRoom}" id="carTable" lazy="true">
                 <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
                 <p:column headerText="Id" sortBy="#{car.id}" filterBy="#{car.id}">
                     <h:outputText value="#{car.id}" />
@@ -31,22 +31,22 @@
 
             <p:dialog header="Car Detail" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="carDetail" style="text-align:center;">
-                    <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedCar}" columnClasses="label,value">
+                    <p:panelGrid  columns="2" rendered="#{not empty dtLazyView.selectedRoom}" columnClasses="label,value">
                         <f:facet name="header">
 
                         </f:facet>
 
                         <h:outputText value="Id:" />
-                        <h:outputText value="#{dtLazyView.selectedCar.id}" />
+                        <h:outputText value="#{dtLazyView.selectedRoom.id}" />
 
                         <h:outputText value="Year" />
-                        <h:outputText value="#{dtLazyView.selectedCar.year}" />
+                        <h:outputText value="#{dtLazyView.selectedRoom.year}" />
 
                         <h:outputText value="Color:" />
-                        <h:outputText value="#{dtLazyView.selectedCar.color}" style="color:#{dtLazyView.selectedCar.color}"/>
+                        <h:outputText value="#{dtLazyView.selectedRoom.color}" style="color:#{dtLazyView.selectedRoom.color}"/>
 
                         <h:outputText value="Price:" />
-                        <h:outputText value="#{dtLazyView.selectedCar.price}">
+                        <h:outputText value="#{dtLazyView.selectedRoom.price}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                     </p:panelGrid>

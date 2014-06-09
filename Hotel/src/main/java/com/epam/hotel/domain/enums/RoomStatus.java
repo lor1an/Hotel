@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.epam.hotel.domain.enums;
 
 /**
  *
- * @author Anatolii_Hlazkov
+ * @author lor1an
  */
-public enum OrderStatus {
-
-    OPEN, IN_PROGRESS, CLOSED;
-
+public enum RoomStatus {
+    ROOM_FREE, ROOM_OCCUPIED; 
 }

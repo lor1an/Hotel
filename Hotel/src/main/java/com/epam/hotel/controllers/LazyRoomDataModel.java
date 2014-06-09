@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.domain;
+package com.epam.hotel.controllers;
 
+import com.epam.hotel.domain.Room;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -17,42 +18,42 @@ import org.primefaces.model.SortOrder;
  * Dummy implementation of LazyDataModel that uses a list to mimic a real
  * datasource like a database.
  */
-public class LazyCarDataModel extends LazyDataModel<Car> {
+public class LazyRoomDataModel extends LazyDataModel<Room> {
 
-    private List<Car> datasource;
+    private List<Room> datasource;
 
-    public LazyCarDataModel(List<Car> datasource) {
+    public LazyRoomDataModel(List<Room> datasource) {
         this.datasource = datasource;
     }
 
     @Override
-    public Car getRowData(String rowKey) {
-        for (Car car : datasource) {
-            if (car.getId().equals(rowKey)) {
-                return car;
+    public Room getRowData(String rowKey) {
+        for (Room room : datasource) {
+            if (room.getId().equals(rowKey)) {
+                return room;
             }
         }
         return null;
     }
 
     @Override
-    public Object getRowKey(Car car) {
-        return car.getId();
+    public Object getRowKey(Room room) {
+        return room.getId();
     }
 
     @Override
-    public List<Car> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        List<Car> data = new ArrayList<Car>();
+    public List<Room> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        List<Room> data = new ArrayList<Room>();
 
         //filter
-        for (Car car : datasource) {
+        for (Room room : datasource) {
             boolean match = true;
             if (filters != null) {
                 for (Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
                     try {
                         String filterProperty = it.next();
                         Object filterValue = filters.get(filterProperty);
-                        String fieldValue = String.valueOf(car.getClass().getField(filterProperty).get(car));
+                        String fieldValue = String.valueOf(room.getClass().getField(filterProperty).get(room));
 
                         if (filterValue == null || fieldValue.startsWith(filterValue.toString())) {
                             match = true;
@@ -66,7 +67,7 @@ public class LazyCarDataModel extends LazyDataModel<Car> {
                 }
             }
             if (match) {
-                data.add(car);
+                data.add(room);
             }
         }
 

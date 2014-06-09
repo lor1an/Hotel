@@ -26,28 +26,18 @@ import javax.persistence.Table;
 @Table(name = "managers")
 @NamedQuery(name = "Manager.getAllManagers", query = "SELECT m from Manager m")
 @Inheritance(strategy = InheritanceType.JOINED)
-//@PrimaryKeyJoinColumn
+
 public class Manager extends User {
 
-    @Column(name = "managerphone", length = 32)
-    private String managerphone;
+    @OneToMany(mappedBy = "manager")
+    private List<Order> managerOrders;
 
-//    @OneToMany(mappedBy = "manager")
-//    private List<Order> customerOrders;
-//
-//    public List<Order> getCustomerOrders() {
-//        return customerOrders;
-//    }
-//
-//    public void setCustomerOrders(List<Order> customerOrders) {
-//        this.customerOrders = customerOrders;
-//    }
-    public String getManagerphone() {
-        return managerphone;
+    public List<Order> getManagerOrders() {
+        return managerOrders;
     }
 
-    public void setManagerphone(String managerphone) {
-        this.managerphone = managerphone;
+    public void setManagerOrders(List<Order> managerOrders) {
+        this.managerOrders = managerOrders;
     }
 
 }

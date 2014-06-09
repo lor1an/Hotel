@@ -3,24 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.domain;
-
-import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.LazyDataModel;
+package com.epam.hotel.controllers;
 
 /**
  *
  * @author Anatolii_Hlazkov
  */
+import com.epam.hotel.domain.Room;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -29,41 +21,40 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
-
 @ManagedBean(name = "dtLazyView")
 @ViewScoped
 public class LazyView implements Serializable {
 
-    private LazyDataModel<Car> lazyModel;
+    private LazyDataModel<Room> lazyModel;
 
-    private Car selectedCar;
+    private Room selectedRoom;
 
-    @ManagedProperty("#{carService}")
-    private CarService service;
+    @EJB
+    private RoomService service;
 
     @PostConstruct
     public void init() {
-        lazyModel = new LazyCarDataModel(service.createCars(200));
+        lazyModel = new LazyRoomDataModel(service.getAllRooms());
     }
 
-    public LazyDataModel<Car> getLazyModel() {
+    public LazyDataModel<Room> getLazyModel() {
         return lazyModel;
     }
 
-    public Car getSelectedCar() {
-        return selectedCar;
+    public Room getSelectedRoom() {
+        return selectedRoom;
     }
 
-    public void setSelectedCar(Car selectedCar) {
-        this.selectedCar = selectedCar;
+    public void setSelectedRoom(Room selectedRoom) {
+        this.selectedRoom = selectedRoom;
     }
 
-    public void setService(CarService service) {
+    public void setService(RoomService service) {
         this.service = service;
     }
 
     public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("Car Selected", ((Car) event.getObject()).getId());
+        FacesMessage msg = new FacesMessage("Room Selected", ((Room) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

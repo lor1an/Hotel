@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.domain;
+package com.epam.hotel.controllers;
 
+import com.epam.hotel.domain.Room;
 import java.util.Comparator;
 import org.primefaces.model.SortOrder;
 
 
-public class LazySorter implements Comparator<Car> {
+public class LazySorter implements Comparator<Room> {
 
     private String sortField;
 
@@ -21,10 +22,10 @@ public class LazySorter implements Comparator<Car> {
     }
 
     @Override
-    public int compare(Car car1, Car car2) {
+    public int compare(Room room1, Room room2) {
         try {
-            Object value1 = Car.class.getField(this.sortField).get(car1);
-            Object value2 = Car.class.getField(this.sortField).get(car2);
+            Object value1 = Room.class.getField(this.sortField).get(room1);
+            Object value2 = Room.class.getField(this.sortField).get(room2);
 
             int value = ((Comparable) value1).compareTo(value2);
 
