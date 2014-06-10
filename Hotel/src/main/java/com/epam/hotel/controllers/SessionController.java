@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -69,6 +70,8 @@ public class SessionController {
     public void show() {
         System.out.println(login);
         System.out.println(password);
+        FacesContext context = FacesContext.getCurrentInstance();
+   
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Error", "Invalid credentials"));
 
