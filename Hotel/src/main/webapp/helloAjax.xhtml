@@ -28,22 +28,38 @@
         <title>Hotel</title>
     </h:head>
     <h:body >
-        <h:graphicImage value="/18_1.jpg" styleClass="imgTop"></h:graphicImage>
-        <h:form id="formdate">
-            <p:growl id="msgs" showDetail="true" />
+        <h:form>            
+            <p:commandButton value="Login" onclick="PF('dlg').show();" />
 
-            <h:panelGrid columns="2" cellpadding="5">
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-                <p:outputLabel for="popup" value="Popup:" />
-                <p:calendar id="popup" value="#{findRoomController.bounds}" />
+            <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="username" value="Username:" />
+                    <p:inputText id="username" value="#{userLoginView.username}" required="true" label="username" />
 
+                    <h:outputLabel for="password" value="Password:" />
+                    <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
 
-            </h:panelGrid>
-
-            <p:commandButton value="Submit" update="msgs" actionListener="#{findRoomController.click}" icon="ui-icon-check" />
-
-
+                    <f:facet name="footer">
+                        <p:commandButton  value="Login" update="growl" actionListener="#{userLoginView.login}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)" />
+                    </f:facet>  
+                </h:panelGrid>
+            </p:dialog>
         </h:form>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+                    PF('dlg').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlg').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+        </script>
 
         <div class="parent">
             <h:form id="form">

@@ -40,6 +40,15 @@ public class Client extends User {
     @OneToMany(mappedBy = "client")
     private List<Order> clientOrders;
 
+    public Client(String phone, String email, String city, String region, String name, String surname, String login, String password) {
+        super(name, surname, login, password);
+        this.phone = phone;
+        this.email = email;
+
+        this.city = city;
+        this.region = region;
+    }
+
     public String getPhone() {
         return phone;
     }

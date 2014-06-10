@@ -45,22 +45,16 @@ public class ClientRepository {
     }
 
     public void insertClient(Client client) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(client);
-            entityManager.getTransaction().commit();
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
+
+        entityManager.persist(client);
+
     }
 
     public void udpateClient(Client client) {
         try {
-            entityManager.getTransaction().begin();
+
             entityManager.merge(client);
-            entityManager.getTransaction().commit();
+
         } finally {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -72,9 +66,9 @@ public class ClientRepository {
         Client temp = entityManager.find(Client.class, client.getId());
         if (temp != null) {
             try {
-                entityManager.getTransaction().begin();
+
                 entityManager.remove(temp);
-                entityManager.getTransaction().commit();
+
             } finally {
                 if (entityManager.getTransaction().isActive()) {
                     entityManager.getTransaction().rollback();

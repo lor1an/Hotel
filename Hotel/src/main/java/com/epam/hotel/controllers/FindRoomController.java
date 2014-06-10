@@ -23,9 +23,26 @@ public class FindRoomController {
     private Date from;
     private Date to;
     private String bounds;
+    private Date today = new Date();
     List<Room> freeRooms;
     @EJB
     MessageBean messageEJB;
+
+    public Date getToday() {
+        return today;
+    }
+
+    public void setToday(Date today) {
+        this.today = today;
+    }
+
+    public MessageBean getMessageEJB() {
+        return messageEJB;
+    }
+
+    public void setMessageEJB(MessageBean messageEJB) {
+        this.messageEJB = messageEJB;
+    }
 
     public Date getFrom() {
         return from;
@@ -60,14 +77,12 @@ public class FindRoomController {
     }
 
     public void click() {
-        System.out.println("click ---------------------------");
-        System.out.println(from);
-        System.out.println(to);
 
         freeRooms = messageEJB.getRoom(from, to);
         System.out.println(freeRooms);
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("anotherpage.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("anotherpage.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
         }

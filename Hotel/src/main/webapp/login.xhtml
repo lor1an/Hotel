@@ -21,7 +21,7 @@
     <f:view contentType="text/html">
         <h:head>
             <title>
-                <ui:insert name="title">Book</ui:insert>
+                <ui:insert name="title">Login</ui:insert>
             </title>
             <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
@@ -41,7 +41,9 @@
                         <p:layoutUnit position="north" >
                             <h:form id="logform">
                                 <h:panelGrid columns="2">
-                                    <h:graphicImage value="/logo.png"></h:graphicImage>
+                                    <h:outputLink onclick="index?faces - redirect = true">
+                                        <h:graphicImage value="/logo.png" onclick="index?faces - redirect = true"></h:graphicImage>
+                                    </h:outputLink>
                                     <h:panelGrid columns="1">
                                         <p:commandButton value="Login" />
                                         <p:commandButton value="Register" />

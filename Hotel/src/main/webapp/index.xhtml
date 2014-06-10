@@ -7,6 +7,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <style>    
+        body{
+            background-color:ghostwhite
+        }
         div.ui-layout-unit {
             padding-top: 0 !important;
             padding-right:  0 !important;
@@ -29,25 +32,29 @@
 
         <h:body>
             <p:layout fullPage="true">
-                <p:layoutUnit position="west" size="200" >
-                    <h:graphicImage value="/west.PNG"></h:graphicImage>
+                <p:layoutUnit position="west" size="200" > 
+                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage value="/east.PNG"></h:graphicImage>
+                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
                     <p:layout>
                         <p:layoutUnit position="north" >
-                            <h:form id="logform">
-                                <h:panelGrid columns="2">
-                                    <h:graphicImage value="/logo.png"></h:graphicImage>
-                                    <h:panelGrid columns="1">
-                                        <p:commandButton value="Login" />
-                                        <p:commandButton value="Register" />
-                                    </h:panelGrid>
+
+                            <h:panelGrid columns="2">
+                                <h:graphicImage value="/logo.png"></h:graphicImage>
+                                <h:panelGrid columns="3">
+                                    <h:form id="logform">          
+                                        <p:commandButton id="logbutton" value="Login" action="login?faces-redirect=true"/>
+                                        <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
+                                        <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
+                                    </h:form>
                                 </h:panelGrid>
-                            </h:form>
+
+
+                            </h:panelGrid>
                         </p:layoutUnit>
 
                         <p:layoutUnit position="center">
@@ -58,10 +65,11 @@
 
                                         <h:panelGrid columns="6" cellpadding="5">
                                             <p:outputLabel for="from" value="Arrival:" />
-                                            <p:calendar id="from" value="#{findRoomController.from}" />
-                                            <p:outputLabel for="to" value="Departure:" />
-                                            <p:calendar id="to" value="#{findRoomController.to}" />
-
+                                            <p:calendar id="from" value="#{findRoomController.from}"  required="true" requiredMessage="Please enter arrival date" mindate="#{findRoomController.today}" >
+                                            <p:ajax event="dateSelect" update=":formdate:to"/>
+                                            </p:calendar>
+                                            <p:outputLabel for="to" value="Departure:"/>
+                                            <p:calendar id="to" value="#{findRoomController.to}"  required="true" requiredMessage="Please enter departure date" mindate="#{findRoomController.from}"/>
                                             <p:selectOneMenu id="console" value="#{findRoomController.bounds}">
                                                 <f:selectItem id="qw1" itemLabel="Persons" itemValue="" />
                                                 <f:selectItem id="qw2" itemLabel="1" itemValue="1" />
@@ -74,12 +82,12 @@
                                     </h:form>
                                 </p:layoutUnit>
                                 <p:layoutUnit position="center">
-                                    <p:carousel itemStyleClass="carItem" autoPlayInterval="5000" numVisible="1" itemStyle="width:20%" 
+                                    <p:carousel itemStyleClass="carItem" autoPlayInterval="5000" numVisible="1" itemStyle="" 
                                                 effect="easeInStrong" circular="true" vertical="false" effectDuration="200">  
-                                        <p:graphicImage value="/carousel/1.jpg"/>  
-                                        <p:graphicImage value="/carousel/2.jpg"/>  
-                                        <p:graphicImage value="/carousel/3.jpg"/>  
-                                        <p:graphicImage value="/carousel/4.jpg"/>  
+                                        <p:graphicImage width="1093px" height="444px" value="/carousel/1.jpg"/>  
+                                        <p:graphicImage width="1093px" height="444px" value="/carousel/2.jpg"/>  
+                                        <p:graphicImage width="1093px" height="444px" value="/carousel/3.jpg"/>  
+                                        <p:graphicImage width="1093px" height="444px" value="/carousel/4.jpg"/>  
                                     </p:carousel>  
 
                                 </p:layoutUnit>

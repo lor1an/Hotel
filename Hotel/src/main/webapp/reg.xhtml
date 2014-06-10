@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <style>    
+        div.ui-layout-unit {
+            padding-top: 0 !important;
+            padding-right:  0 !important;
+            padding-bottom:  0 !important;
+            padding-left:  0 !important;
+        }
+        div.ui-datepicker{
+            font-size:12px!important;
+        } 
+    </style>
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>
+                <ui:insert name="title">Register</ui:insert>
+            </title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+        </h:head>
+
+        <h:body>
+            <p:layout fullPage="true">
+                <p:layoutUnit position="west" size="200" > 
+                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="east" size="200">
+                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <p:layout>
+                        <p:layoutUnit position="north" >
+                            <h:form id="logform">
+                                <h:panelGrid columns="2">
+                                    <h:graphicImage value="/logo.png"></h:graphicImage>
+                                    <h:panelGrid columns="1">
+                                        <p:commandButton value="Login" />
+                                        <p:commandButton value="Register" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:form>
+                        </p:layoutUnit>
+
+                        <p:layoutUnit position="center">
+                            <h:form>
+                                <p:panel id="panel" header="New User">
+
+                                    <p:messages id="msgs" />
+
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <p:outputLabel for="name" value="Name:" />
+                                        <p:inputText id="name" value="#{clientView.name}" required="true" label="Name" requiredMessage="U must enter your name">
+                                            <f:validateLength minimum="2" />
+                                        </p:inputText>
+                                        <p:message for="name" display="icon" />
+
+                                        <p:outputLabel for="surname" value="Surname:" />
+                                        <p:inputText id="surname" value="#{clientView.surname}" label="Surname" required="true">
+                                            <f:validateLength minimum="2" />
+                                            <p:ajax update="msgLastname" event="keyup" />
+                                        </p:inputText>
+                                        <p:message for="surname" id="msgLastname" display="icon" />
+
+                                        <p:outputLabel for="login" value="Login:" />
+                                        <p:inputText id="login" value="#{clientView.login}" required="true" label="Login" requiredMessage="blabla">
+                                            <f:validateLength minimum="2" />
+                                        </p:inputText>
+                                        <p:message for="login" display="icon" />
+
+                                        <h:outputLabel for="pwd1" value="Password: " />
+                                        <p:password id="pwd1" value="#{clientView.password}" match="pwd2" label="Password 1" required="true" />
+                                        <p:message for="pwd1" display="icon" />
+
+                                        <h:outputLabel for="pwd2" value="Confirm password: " />
+                                        <p:password id="pwd2" value="#{clientView.password}" label="Password 2" required="true" />
+                                        <p:message for="pwd2" display="icon" />
+
+                                        <p:outputLabel for="phone" value="Phone: " />
+                                        <p:inputMask id="phone" value="#{clientView.phone}" mask="(999) 999-9999" required="true"/>
+                                        <p:message for="phone" display="icon" />
+
+                                        <h:outputLabel for="email" value="Email: " />
+                                        <p:inputText id="email" value="#{clientView.email}" label="email" required="true" validatorMessage="Invalid email format" >
+                                            <f:validateRegex
+                                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                                        </p:inputText>
+                                        <p:message for="email" display="icon" />
+
+                                        <h:outputLabel for="city" value="City:" />
+                                        <p:inputText id="city" value="#{clientView.city}" label="city" required="true" />
+                                        <p:message for="city" display="icon" />
+
+                                        <h:outputLabel for="region" value="Region:" />
+                                        <p:selectOneMenu id="console" value="#{clientView.region}">
+                                            <f:selectItem itemLabel="Select Region" itemValue="" />
+                                            <f:selectItem itemLabel="Kyiv" itemValue="Kyiv" />
+                                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                                        </p:selectOneMenu>
+
+                                    </h:panelGrid>
+
+                                    <p:commandButton value="Save" update="panel" actionListener="#{clientView.save}" icon="ui-icon-check" />
+                                </p:panel>
+                            </h:form>
+
+                        </p:layoutUnit>
+                    </p:layout>
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>

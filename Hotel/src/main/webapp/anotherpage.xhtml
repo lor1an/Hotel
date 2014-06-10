@@ -29,11 +29,11 @@
 
         <h:body>
             <p:layout fullPage="true">
-                <p:layoutUnit position="west" size="200" >
-                    <h:graphicImage value="/west.PNG"></h:graphicImage>
+                <p:layoutUnit position="west" size="200" > 
+                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage value="/east.PNG"></h:graphicImage>
+                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -42,9 +42,12 @@
                             <h:form id="logform">
                                 <h:panelGrid columns="2">
                                     <h:graphicImage value="/logo.png"></h:graphicImage>
-                                    <h:panelGrid columns="1">
-                                        <p:commandButton value="Login" />
-                                        <p:commandButton value="Register" />
+                                    <h:panelGrid columns="3">
+                                        <h:form id="logform">          
+                                            <p:commandButton id="logbutton" value="Login" action="login?faces-redirect=true"/>
+                                            <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
+                                            <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
+                                        </h:form>
                                     </h:panelGrid>
                                 </h:panelGrid>
                             </h:form>
@@ -77,9 +80,9 @@
                                                     <p:commandButton value="Order" action="order?faces-redirect=true"/>
 
                                                     <p:dialog header="Details" widgetVar="detdlg" dynamic="true" resizable="false">
-                                                        <p:galleria value="#{imagesView.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
+                                                        <p:galleria value="#{imagesView.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true" >
                                                             <h:panelGrid columns="2" cellpadding="5">  
-                                                                <p:graphicImage value="/rooms/images/#{image}" width="500" height="313"/>
+                                                                <p:graphicImage value="/rooms/images/#{image}" title="#{image}" alt="Image Description for #{image}" width="500" height="313" />
                                                             </h:panelGrid>
                                                         </p:galleria>
                                                     </p:dialog>
