@@ -19,6 +19,9 @@
         div.ui-datepicker{
             font-size:12px!important;
         } 
+        /*        div.ui-carousel-header select {
+                    display: none;
+                }*/
     </style>
 
     <f:view contentType="text/html">
@@ -47,13 +50,25 @@
                                 <h:graphicImage value="/logo.png"></h:graphicImage>
                                 <h:panelGrid columns="3">
                                     <h:form id="logform">          
-                                        <p:commandButton id="logbutton" value="Login" action="login?faces-redirect=true"/>
+                                        <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();"/>
                                         <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
                                         <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
-                                        <!--                                        <p:commandButton value="По-русски" ajax="true" update="@all">-->
-
 
                                     </h:form>
+                                    <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)" modal="false">
+                                        <h:form id="dlgform">
+                                            <h:panelGrid columns="3" cellpadding="5">
+
+                                                <h:outputLabel for="username" value="Username:" />
+                                                <p:inputText id="username" value="#{sessionController.login}" required="true" label="username" />
+                                                <p:message for="username" display="icon" />
+                                                <h:outputLabel for="password" value="Password:" />
+                                                <p:password id="password" value="#{sessionController.password}" required="true" label="password" />
+                                                <p:message for="password" display="icon" />
+                                                <p:commandButton  value="Login" update="dlgform" action="#{sessionController.show()}"/>
+                                            </h:panelGrid>
+                                        </h:form>
+                                    </p:dialog>
                                 </h:panelGrid>
 
 
@@ -86,7 +101,7 @@
                                 </p:layoutUnit>
                                 <p:layoutUnit position="center">
                                     <p:carousel itemStyleClass="carItem" autoPlayInterval="5000" numVisible="1" itemStyle="" 
-                                                effect="easeInStrong" circular="true" vertical="false" effectDuration="1000">  
+                                                effect="easeInStrong" circular="true" vertical="false" effectDuration="1000" >  
                                         <p:graphicImage width="1093px" height="444px" value="/carousel/1.jpg"/>  
                                         <p:graphicImage width="1093px" height="444px" value="/carousel/2.jpg"/>  
                                         <p:graphicImage width="1093px" height="444px" value="/carousel/3.jpg"/>  

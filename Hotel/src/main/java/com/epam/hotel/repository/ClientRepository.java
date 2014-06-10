@@ -45,35 +45,23 @@ public class ClientRepository {
     }
 
     public void insertClient(Client client) {
-
         entityManager.persist(client);
-
     }
 
     public void udpateClient(Client client) {
-        try {
-
-            entityManager.merge(client);
-
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
+        entityManager.merge(client);
     }
 
     public void deleteClient(Client client) {
         Client temp = entityManager.find(Client.class, client.getId());
         if (temp != null) {
-            try {
-
-                entityManager.remove(temp);
-
-            } finally {
-                if (entityManager.getTransaction().isActive()) {
-                    entityManager.getTransaction().rollback();
-                }
-            }
+            entityManager.remove(temp);
         }
+    }
+
+    public Client getClientByUsername(String login) {
+        TypedQuery<Client> clientQuery = entityManager.createNamedQuery("Client.getClientByLogin", Client.class);
+        clientQuery.setParameter("login", login);
+        return clientQuery.getSingleResult();
     }
 }

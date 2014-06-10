@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-public class ClientView {
+public class RegistrationController {
 
     private String name;
     private String surname;
@@ -102,7 +102,6 @@ public class ClientView {
         System.out.println(city);
         System.out.println(region);
         messageEJB.createClientRepository(c);
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage("Welcome " + name + " " + surname));
+     
     }
 }

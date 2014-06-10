@@ -5,8 +5,8 @@
  */
 package com.epam.hotel.controllers;
 
+import com.epam.hotel.domain.Order;
 import com.epam.hotel.domain.Room;
-import com.epam.hotel.domain.enums.OrderStatus;
 import com.epam.hotel.domain.enums.OrderType;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -55,5 +55,9 @@ public class OrderBuilder {
         System.out.println(selectedRoom);
         System.out.println(findRoomController.getFrom());
         System.out.println(findRoomController.getTo());
+    }
+
+    public void makeOrder() {
+        Order order = new Order();
     }
 }

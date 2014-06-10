@@ -17,23 +17,28 @@ import javax.persistence.PersistenceContext;
 @Stateless
 
 public class MessageBean implements Serializable {
-    
+
     @PersistenceContext(unitName = "COLIBRI")
     private EntityManager manager;
-    
+
     public Room getRoom() {
         RoomRepository rr = new RoomRepository(manager);
         return rr.getRoomById(1);
     }
-    
+
     public List<Room> getRoom(Date from, Date to) {
         RoomRepository rr = new RoomRepository(manager);
         return rr.getFreeRooms(from, to);
     }
-    
+
     public void createClientRepository(Client c) {
         ClientRepository cr = new ClientRepository(manager);
         cr.insertClient(c);
     }
-    
+
+    public Client findClientByLogin(String login) {
+        ClientRepository cr = new ClientRepository(manager);
+        return cr.getClientByUsername(login);
+    }
+
 }

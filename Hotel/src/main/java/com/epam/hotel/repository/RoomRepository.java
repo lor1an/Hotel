@@ -6,7 +6,6 @@
 package com.epam.hotel.repository;
 
 import com.epam.hotel.domain.Room;
-import com.epam.hotel.domain.User;
 import com.epam.hotel.domain.enums.OrderStatus;
 import java.util.Date;
 import java.util.List;

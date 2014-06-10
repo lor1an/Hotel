@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -21,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "clients")
-@NamedQuery(name = "Client.getAllClients", query = "SELECT c from Client c")
+@NamedQueries({
+    @NamedQuery(name = "Client.getAllClients", query = "SELECT c from Client c"),
+    @NamedQuery(name = "Client.getClientByLogin", query = "SELECT c from Client c"
+            + " WHERE c.login=:login")
+
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn
 public class Client extends User {
