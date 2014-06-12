@@ -56,17 +56,15 @@
                                             <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
                                             <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
                                             <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
-                                            <p:remoteCommand id="rc" name="sayHello" action="#{sessionController.sayHi()}" />
+
+
                                             <script type="text/javascript">
                                                 function handleLoginRequest(xhr, status, args) {
                                                     if (args.validationFailed || !args.loggedIn) {
                                                         PF('dlg').jq.effect("shake", {times: 5}, 100);
-
                                                     }
                                                     else {
-
                                                         PF('dlg').hide();
-                                                        sayHello();
                                                         location.reload();
                                                         $('#loginLink').fadeOut();
                                                     }
@@ -74,11 +72,21 @@
                                                 function reload() {
                                                     location.reload();
                                                 }
+                                                function showDialog(loggedIn) {
+                                                    if (!loggedIn) {
+                                                        PF('dlg').show();
+                                                    }
+                                                }
+
+
+
                                             </script>
                                         </h:form>
-                                        <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)" modal="true" closable="false">
+
+                                        <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)" modal="true" closable="false" >
                                             <h:form id="dlgform">
                                                 <p:messages id="msgs" />
+                                                
                                                 <h:panelGrid columns="3" cellpadding="5">
 
                                                     <h:outputLabel for="username" value="Username:" />

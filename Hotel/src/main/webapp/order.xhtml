@@ -7,6 +7,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <style>    
+        body{
+            background-color:ghostwhite
+        }
         div.ui-layout-unit {
             padding-top: 0 !important;
             padding-right:  0 !important;
@@ -16,18 +19,51 @@
         div.ui-datepicker{
             font-size:12px!important;
         } 
+        div.ui-carousel-header select {
+            display: none;
+        }
     </style>
+    <script type="text/javascript">
+        function handleLoginRequest(xhr, status, args) {
+            if (args.validationFailed || !args.loggedIn) {
+                PF('innerDlg').jq.effect("shake", {times: 5}, 100);
+            }
+            else {
 
+                PF('innerDlg').hide();
+                location.reload();
+                $('#loginLink').fadeOut();
+            }
+        }
+        function reload() {
+            location.reload();
+        }
+        function showDialog(loggedIn) {
+            if (!loggedIn) {
+                PF('dlg').show();
+            } else {
+                initBean();
+            }
+        }
+        function switchDialoges() {
+            PF('dlg').hide();
+            PF('innerDlg').show();
+        }
+
+
+
+    </script>
     <f:view contentType="text/html">
         <h:head>
             <title>
-                <ui:insert name="title">Order</ui:insert>
+                <ui:insert name="title">Ordering</ui:insert>
             </title>
             <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
         </h:head>
 
-        <h:body>
+        <h:body onload="showDialog(#{sessionController.loggedIn})">
+
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
                     <h:graphicImage height="730" width="195" value="/west.PNG"/>
@@ -38,22 +74,72 @@
 
                 <p:layoutUnit position="center">
                     <p:layout>
-                        <p:layoutUnit position="north" >
-                            <h:form id="logform">
-                                <h:panelGrid columns="2">
-                                    <h:graphicImage value="/logo.png"></h:graphicImage>
-                                    <h:panelGrid columns="1">
-                                        <p:commandButton value="Login" />
-                                        <p:commandButton value="Register" />
+                        <p:layoutUnit position="north">
+
+                            <h:panelGrid columns="2">
+                                <h:graphicImage value="/logo.png"></h:graphicImage>
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="You are logged in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
+                                    <h:panelGrid columns="3">
+                                        <h:form id="logform">          
+                                            <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
+                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
+                                            <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
+                                            <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
+
+                                        </h:form>
+
+
+                                        <p:confirmDialog header="Login" widgetVar="dlg"  appendTo="@(body)" closable="false" message="You must log in to continue. Register if you do not have an account" >
+                                            <h:form>
+                                                <p:commandButton  value="Login" onclick="switchDialoges()" />    
+                                                <p:commandButton  value="Register" action="reg?faces-redirect=true" />    
+                                                <p:commandButton  value="Main Page" action="index?faces-redirect=true" />    
+                                            </h:form>
+                                        </p:confirmDialog>
+
+                                        <p:dialog header="Login" widgetVar="innerDlg" resizable="false" appendTo="@(body)" modal="true" closable="false">
+                                            <h:form id="dlgform">
+                                                <p:messages id="msgs" />
+                                                <h:panelGrid columns="3" cellpadding="5">
+                                                    <h:outputLabel for="username" value="Username:" />
+                                                    <p:inputText id="username" value="#{sessionController.login}" required="true" label="username" />
+                                                    <p:message for="username" display="icon" />
+                                                    <h:outputLabel for="password" value="Password:" />
+                                                    <p:password id="password" value="#{sessionController.password}" required="true" label="password" />
+                                                    <p:message for="password" display="icon" />
+                                                    <p:commandButton  value="Login" update="dlgform" action="#{sessionController.verifyUser()}"
+                                                                      oncomplete="handleLoginRequest(xhr, status, args)" />
+                                                    <p:commandButton  value="Register" action="#{orderBuilder.goToReg()}" />    
+                                                    <p:commandButton  value="Main Page" action="#{orderBuilder.goToMain()}" />    
+
+                                                </h:panelGrid>
+                                            </h:form>
+                                        </p:dialog>
+
                                     </h:panelGrid>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:layoutUnit>
+
+                        <p:layoutUnit position="center">
+                            <h:form></h:form>
+                            <h:form id="orderData">
+                                <h:panelGrid columns="1">
+                                    <p:remoteCommand name="initBean" action="#{orderBuilder.init()}" update="orderData"/>
+                                    <h:outputText value="Summary" style="font-size: 40px"/>
+                                    <h:outputText value="#{orderBuilder.client.name}"/>
+                                    <h:outputText value="#{orderBuilder.client.surname}"/>
+                                    <h:outputText value="#{orderBuilder.client.email}"/>
+                                    <h:outputText value="#{orderBuilder.findRoomController.from}"/>
+                                    <h:outputText value="#{orderBuilder.findRoomController.to}"/>
+                                    <h:outputText value="#{orderBuilder.payment}$"/>
+
                                 </h:panelGrid>
                             </h:form>
                         </p:layoutUnit>
 
-                        <p:layoutUnit position="center">
-                            <p:commandButton value="Show" action="#{orderBuilder.show()}" />
-
-                        </p:layoutUnit>
                     </p:layout>
 
                 </p:layoutUnit>

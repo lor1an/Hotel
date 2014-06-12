@@ -27,40 +27,11 @@
     <h:head>
         <title>Hotel</title>
     </h:head>
-    <h:body >
-        <h:form>            
-            <p:commandButton value="Login" onclick="PF('dlg').show();" />
-
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
-            <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="username" value="Username:" />
-                    <p:inputText id="username" value="#{userLoginView.username}" required="true" label="username" />
-
-                    <h:outputLabel for="password" value="Password:" />
-                    <p:password id="password" value="#{userLoginView.password}" required="true" label="password" />
-
-                    <f:facet name="footer">
-                        <p:commandButton  value="Login" update="growl" actionListener="#{userLoginView.login}"
-                                         oncomplete="handleLoginRequest(xhr, status, args)" />
-                    </f:facet>  
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
-
-        <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) {
-                if (args.validationFailed || !args.loggedIn) {
-                    PF('dlg').jq.effect("shake", {times: 5}, 100);
-                }
-                else {
-                    PF('dlg').hide();
-                    $('#loginLink').fadeOut();
-                }
-            }
-        </script>
-
+    <h:body onload="dialog.show()">
+       
+            <p:dialog widgetVar="dialog"/>
+        
+            
         <div class="parent">
             <h:form id="form">
                 <p:growl id="msgs" showDetail="true" />

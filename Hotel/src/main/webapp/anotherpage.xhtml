@@ -72,9 +72,10 @@
                                             <h:panelGrid columns="1" cellpadding="5">
                                                 <h:outputText value="One King or Queen bed. Large work desk. Business travelers and couples will enjoy this room's solid wood. Each room accommodation includes an oversized chair with ottoman, in-room safe, flat-screen TV with a full selection of HD programming, bathtub or glass shower. Sleep soundly in comfortable bedding with Hilton's Serenity mattress, feather and down pillows, and luxurious striped linens." />
 
-                                                <h:panelGrid columns="4" cellpadding="5">
+                                                <h:panelGrid columns="5" cellpadding="5">
                                                     <h:outputText value="Capacity: " style="font-weight: bold"/>  <h:outputText value="#{room.capacity}" />
                                                     <h:outputText value="Cost: "  style="font-weight: bold"/> <h:outputText value="#{room.cost}$" />
+                                                    <h:outputText value="#{room.comfort}" style="font-weight: bold"/>
                                                 </h:panelGrid>
                                                 <h:panelGrid columns="3" cellpadding="5">
                                                     <p:commandButton value="Details" onclick="PF('detdlg').show();" type="button"/>
@@ -83,7 +84,7 @@
                                                         <f:setPropertyActionListener value="#{room}" target="#{orderBuilder.selectedRoom}"/>
                                                         <f:setPropertyActionListener value="ORDERING" target="#{orderBuilder.orderType}"/>
                                                     </p:commandButton>
-                                                  
+
 
                                                     <p:dialog header="Details" widgetVar="detdlg" dynamic="true" resizable="false">
                                                         <p:galleria value="#{imagesView.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true" >

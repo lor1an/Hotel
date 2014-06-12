@@ -50,7 +50,7 @@ public class Room implements Serializable {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "comfort")
+    
     @Enumerated(EnumType.ORDINAL)
     private RoomComfort comfort;
 

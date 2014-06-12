@@ -28,6 +28,7 @@ public class SessionController {
     private String password;
     private User user;
     boolean loggedIn;
+    boolean t = false;
 
     @EJB
     MessageBean messageEJB;
@@ -38,6 +39,22 @@ public class SessionController {
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    public boolean isT() {
+        return t;
+    }
+
+    public void setT(boolean t) {
+        this.t = t;
+    }
+
+    public MessageBean getMessageEJB() {
+        return messageEJB;
+    }
+
+    public void setMessageEJB(MessageBean messageEJB) {
+        this.messageEJB = messageEJB;
     }
 
     public User getUser() {
@@ -76,7 +93,7 @@ public class SessionController {
             RequestContext.getCurrentInstance().addCallbackParam("loggedIn", loggedIn);
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Error", "Invalid credentials"));
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials"));
         }
     }
 
@@ -90,7 +107,6 @@ public class SessionController {
 
     public void sayHi() {
         System.out.println("sdlkfsldkfjsf");
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", login));
+
     }
 }
