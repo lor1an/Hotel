@@ -6,9 +6,12 @@
 package com.epam.hotel.controllers;
 
 import com.epam.hotel.domain.Client;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
@@ -23,7 +26,9 @@ public class RegistrationController {
     private String city;
     private String region;
 
-    @EJB
+    @ManagedProperty(value = "#{sessionController}")
+    SessionController sc;
+    private @EJB
     MessageBean messageEJB;
 
     public String getName() {
@@ -90,9 +95,18 @@ public class RegistrationController {
         this.region = region;
     }
 
+    public SessionController getSc() {
+        return sc;
+    }
+
+    public void setSc(SessionController sc) {
+        this.sc = sc;
+    }
+    
+
     public void save() {
-        Client c = new Client(name, surname,
-                login, password, phone, email, city, region);
+        Client c = new Client(name, surname, phone, email, name, city, region,
+                null, login, password);
         System.out.println(name);
         System.out.println(surname);
         System.out.println(login);
@@ -101,7 +115,15 @@ public class RegistrationController {
         System.out.println(email);
         System.out.println(city);
         System.out.println(region);
-        messageEJB.createClientRepository(c);
-     
+        messageEJB.createNewClient(c);
+        sc.setUser(c);
+        sc.setLoggedIn(true);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("index.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

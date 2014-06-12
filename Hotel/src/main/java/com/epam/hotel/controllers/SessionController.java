@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
@@ -19,15 +20,25 @@ import org.primefaces.context.RequestContext;
  *
  * @author lor1an
  */
-@ManagedBean
+@ManagedBean(name = "sessionController")
+@SessionScoped
 public class SessionController {
 
     private String login;
     private String password;
     private User user;
-//
-//    @EJB
-//    MessageBean messageEJB;
+    boolean loggedIn;
+
+    @EJB
+    MessageBean messageEJB;
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 
     public User getUser() {
         return user;
@@ -54,26 +65,32 @@ public class SessionController {
     }
 
     public void verifyUser() {
-        // messageEJB.findClientByLogin(login);
-        System.out.println(login);
-        System.out.println(password);
-        if (password != null && login != null) {
+        User verUser = messageEJB.findClientByLogin(login);
+        System.out.println(verUser);
+        if (password != null && login != null && verUser != null
+                && verUser.getPassword().equals(password)
+                && verUser.getLogin().equals(login)) {
 
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", login));
+            user = verUser;
+            loggedIn = true;
+            RequestContext.getCurrentInstance().addCallbackParam("loggedIn", loggedIn);
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Error", "Invalid credentials"));
         }
     }
 
-    public void show() {
-        System.out.println(login);
-        System.out.println(password);
-        FacesContext context = FacesContext.getCurrentInstance();
-   
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Login Error", "Invalid credentials"));
+    public void logout() {
+        login = null;
+        password = null;
+        user = null;
+        loggedIn = false;
 
+    }
+
+    public void sayHi() {
+        System.out.println("sdlkfsldkfjsf");
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", login));
     }
 }

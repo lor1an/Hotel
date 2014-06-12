@@ -8,6 +8,7 @@ package com.epam.hotel.repository;
 import com.epam.hotel.domain.Client;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -41,7 +42,12 @@ public class ClientRepository {
     public Client getClientById(int id) {
         TypedQuery<Client> clientQuery = entityManager.createNamedQuery("Client.getClientById", Client.class);
         clientQuery.setParameter("id", id);
-        return clientQuery.getSingleResult();
+        try {
+            Client c = clientQuery.getSingleResult();
+            return c;
+        } catch (NoResultException exception) {
+            return null;
+        }
     }
 
     public void insertClient(Client client) {
@@ -59,9 +65,14 @@ public class ClientRepository {
         }
     }
 
-    public Client getClientByUsername(String login) {
+    public Client getClientByLogin(String login) {
         TypedQuery<Client> clientQuery = entityManager.createNamedQuery("Client.getClientByLogin", Client.class);
         clientQuery.setParameter("login", login);
-        return clientQuery.getSingleResult();
+        try {
+            Client c = clientQuery.getSingleResult();
+            return c;
+        } catch (NoResultException exception) {
+            return null;
+        }
     }
 }

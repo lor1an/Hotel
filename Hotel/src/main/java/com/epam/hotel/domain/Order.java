@@ -32,9 +32,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "orders")
 @NamedQueries({
-    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o"),
-    
-}
+    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o"),}
 )
 public class Order implements Serializable {
 
@@ -58,6 +56,8 @@ public class Order implements Serializable {
     private OrderType type;
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus status;
+    @Column(name = "payment")
+    private Integer payment;
 
     public Room getRoom() {
         return room;
@@ -91,6 +91,10 @@ public class Order implements Serializable {
         return status;
     }
 
+    public Integer getPayment() {
+        return payment;
+    }
+
     public void setRoom(Room room) {
         this.room = room;
     }
@@ -121,6 +125,10 @@ public class Order implements Serializable {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public void setPayment(Integer payment) {
+        this.payment = payment;
     }
 
 }

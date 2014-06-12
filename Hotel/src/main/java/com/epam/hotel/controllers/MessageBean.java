@@ -31,14 +31,14 @@ public class MessageBean implements Serializable {
         return rr.getFreeRooms(from, to);
     }
 
-    public void createClientRepository(Client c) {
+    public void createNewClient(Client c) {
         ClientRepository cr = new ClientRepository(manager);
         cr.insertClient(c);
     }
 
     public Client findClientByLogin(String login) {
         ClientRepository cr = new ClientRepository(manager);
-        return cr.getClientByUsername(login);
+        return cr.getClientByLogin(login);
     }
 
 }

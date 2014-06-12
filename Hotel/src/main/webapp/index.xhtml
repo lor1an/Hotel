@@ -19,9 +19,9 @@
         div.ui-datepicker{
             font-size:12px!important;
         } 
-        /*        div.ui-carousel-header select {
-                    display: none;
-                }*/
+        div.ui-carousel-header select {
+            display: none;
+        }
     </style>
 
     <f:view contentType="text/html">
@@ -48,31 +48,56 @@
 
                             <h:panelGrid columns="2">
                                 <h:graphicImage value="/logo.png"></h:graphicImage>
-                                <h:panelGrid columns="3">
-                                    <h:form id="logform">          
-                                        <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();"/>
-                                        <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
-                                        <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="You are logged in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
+                                    <h:panelGrid columns="3">
+                                        <h:form id="logform">          
+                                            <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
+                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
+                                            <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true"/>
+                                            <p:commandButton id="aboutbut" value="About" action="reg?faces-redirect=true"/>
+                                            <p:remoteCommand id="rc" name="sayHello" action="#{sessionController.sayHi()}" />
+                                            <script type="text/javascript">
+                                                function handleLoginRequest(xhr, status, args) {
+                                                    if (args.validationFailed || !args.loggedIn) {
+                                                        PF('dlg').jq.effect("shake", {times: 5}, 100);
 
-                                    </h:form>
-                                    <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)" modal="false">
-                                        <h:form id="dlgform">
-                                            <p:messages id="msgs" />
-                                            <h:panelGrid columns="3" cellpadding="5">
+                                                    }
+                                                    else {
 
-                                                <h:outputLabel for="username" value="Username:" />
-                                                <p:inputText id="username" value="#{sessionController.login}" required="true" label="username" />
-                                                <p:message for="username" display="icon" />
-                                                <h:outputLabel for="password" value="Password:" />
-                                                <p:password id="password" value="#{sessionController.password}" required="true" label="password" />
-                                                <p:message for="password" display="icon" />
-                                                <p:commandButton  value="Login" update="dlgform" action="#{sessionController.show()}"/>
-                                            </h:panelGrid>
+                                                        PF('dlg').hide();
+                                                        sayHello();
+                                                        location.reload();
+                                                        $('#loginLink').fadeOut();
+                                                    }
+                                                }
+                                                function reload() {
+                                                    location.reload();
+                                                }
+                                            </script>
                                         </h:form>
-                                    </p:dialog>
+                                        <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)" modal="true" closable="false">
+                                            <h:form id="dlgform">
+                                                <p:messages id="msgs" />
+                                                <h:panelGrid columns="3" cellpadding="5">
+
+                                                    <h:outputLabel for="username" value="Username:" />
+                                                    <p:inputText id="username" value="#{sessionController.login}" required="true" label="username" />
+                                                    <p:message for="username" display="icon" />
+                                                    <h:outputLabel for="password" value="Password:" />
+                                                    <p:password id="password" value="#{sessionController.password}" required="true" label="password" />
+                                                    <p:message for="password" display="icon" />
+                                                    <p:commandButton  value="Login" update="dlgform" action="#{sessionController.verifyUser()}"
+                                                                      oncomplete="handleLoginRequest(xhr, status, args)" />
+                                                    <p:commandButton  value="Close" type="reset" onclick="PF('dlg').hide();" />
+
+                                                </h:panelGrid>
+                                            </h:form>
+                                        </p:dialog>
+
+                                    </h:panelGrid>
+
                                 </h:panelGrid>
-
-
                             </h:panelGrid>
                         </p:layoutUnit>
 
@@ -82,18 +107,24 @@
                                     <h:form id="formdate">
                                         <p:growl id="msgs" showDetail="true" />
 
-                                        <h:panelGrid columns="6" cellpadding="5">
+                                        <h:panelGrid columns="7" cellpadding="5">
                                             <p:outputLabel for="from" value="Arrival:" />
                                             <p:calendar id="from" value="#{findRoomController.from}"  required="true" requiredMessage="Please enter arrival date" mindate="#{findRoomController.today}" >
                                                 <p:ajax event="dateSelect" update=":formdate:to"/>
                                             </p:calendar>
                                             <p:outputLabel for="to" value="Departure:"/>
                                             <p:calendar id="to" value="#{findRoomController.to}"  required="true" requiredMessage="Please enter departure date" mindate="#{findRoomController.from}"/>
-                                            <p:selectOneMenu id="console" value="#{findRoomController.bounds}">
+                                            <p:selectOneMenu id="personmenu" value="#{findRoomController.bounds}">
                                                 <f:selectItem id="qw1" itemLabel="Persons" itemValue="" />
                                                 <f:selectItem id="qw2" itemLabel="1" itemValue="1" />
                                                 <f:selectItem id="qw3" itemLabel="2-3" itemValue="2-3" />
                                                 <f:selectItem id="qw4" itemLabel="4-5" itemValue="4-5" />
+                                            </p:selectOneMenu>
+                                            <p:selectOneMenu id="comfortmenu" value="#{findRoomController.comfort}">
+                                                <f:selectItem  itemLabel="Comfort" itemValue="" />
+                                                <f:selectItem  itemLabel="Lux" itemValue="LUX" />
+                                                <f:selectItem  itemLabel="Suit" itemValue="SUIT" />
+                                                <f:selectItem  itemLabel="Usual" itemValue="USUAL" />
                                             </p:selectOneMenu>
                                             <p:commandButton id="qw5" value="Find a room" update="msgs" actionListener="#{findRoomController.click()}" icon="ui-icon-check" />
                                         </h:panelGrid>
@@ -107,6 +138,7 @@
                                         <p:graphicImage width="1093px" height="444px" value="/carousel/2.jpg"/>  
                                         <p:graphicImage width="1093px" height="444px" value="/carousel/3.jpg"/>  
                                         <p:graphicImage width="1093px" height="444px" value="/carousel/4.jpg"/>  
+                                        <p:graphicImage width="1093px" height="444px" value="/carousel/5.jpg"/>  
                                     </p:carousel>  
 
                                 </p:layoutUnit>

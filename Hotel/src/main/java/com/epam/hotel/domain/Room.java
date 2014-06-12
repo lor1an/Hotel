@@ -5,9 +5,12 @@
  */
 package com.epam.hotel.domain;
 
+import com.epam.hotel.domain.enums.RoomComfort;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,6 +50,10 @@ public class Room implements Serializable {
     @Column(name = "capacity")
     private Integer capacity;
 
+    @Column(name = "comfort")
+    @Enumerated(EnumType.ORDINAL)
+    private RoomComfort comfort;
+
     public Integer getId() {
         return id;
     }
@@ -63,6 +70,10 @@ public class Room implements Serializable {
         return capacity;
     }
 
+    public RoomComfort getComfort() {
+        return comfort;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -77,6 +88,10 @@ public class Room implements Serializable {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public void setComfort(RoomComfort comfort) {
+        this.comfort = comfort;
     }
 
     @Override

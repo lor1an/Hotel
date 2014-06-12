@@ -27,37 +27,22 @@ public abstract class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    @Column(name = "name", length = 32)
-    private String name;
-    @Column(name = "surname", length = 32)
-    private String surname;
+    
     @Column(name = "login", length = 32)
     private String login;
     @Column(name = "password", length = 32)
     private String password;
 
     public User() {
-
     }
 
-    public User(String name, String surname, String login, String password) {
-        this.name = name;
-        this.surname = surname;
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
     }
 
     public String getLogin() {
@@ -70,14 +55,6 @@ public abstract class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public void setLogin(String login) {

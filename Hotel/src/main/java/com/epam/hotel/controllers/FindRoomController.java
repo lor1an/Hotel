@@ -6,6 +6,7 @@
 package com.epam.hotel.controllers;
 
 import com.epam.hotel.domain.Room;
+import com.epam.hotel.domain.enums.RoomComfort;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,10 @@ public class FindRoomController {
     private Date from;
     private Date to;
     private String bounds;
+    private String comfort;
     private Date today = new Date();
     List<Room> freeRooms;
+
     @EJB
     MessageBean messageEJB;
 
@@ -68,6 +71,14 @@ public class FindRoomController {
         this.bounds = bounds;
     }
 
+    public String getComfort() {
+        return comfort;
+    }
+
+    public void setComfort(String comfort) {
+        this.comfort = comfort;
+    }
+
     public List<Room> getFreeRooms() {
         return freeRooms;
     }
@@ -77,7 +88,9 @@ public class FindRoomController {
     }
 
     public void click() {
-
+        //  System.out.println(comfort);
+        RoomComfort rc = RoomComfort.valueOf(comfort);
+        System.out.println(rc);
         freeRooms = messageEJB.getRoom(from, to);
         System.out.println(freeRooms);
         try {
