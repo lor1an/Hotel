@@ -26,7 +26,7 @@ public class FindRoomController {
     private String bounds;
     private String comfort;
     private Date today = new Date();
-   
+
     List<Room> freeRooms;
 
     @EJB
@@ -90,8 +90,21 @@ public class FindRoomController {
 
     public void click() {
         //  System.out.println(comfort);
-        
+
         freeRooms = messageEJB.getRoom(from, to);
+        RoomComfort comfortToSend;
+        Integer boundsToSend;
+        if ("NOSELECT".equals(comfort)) {
+            comfortToSend = null;
+        } else {
+            comfortToSend = RoomComfort.valueOf(comfort);
+        }
+        if ("NOSELECT".equals(bounds)) {
+            boundsToSend = null;
+        } else {
+            boundsToSend = new Integer(bounds);
+        }
+        messageEJB.getFreeRooms(null, null, comfortToSend, boundsToSend);
         System.out.println(freeRooms);
         try {
             FacesContext.getCurrentInstance().getExternalContext().

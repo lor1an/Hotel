@@ -83,7 +83,7 @@ public class SessionController {
 
     public void verifyUser() {
         User verUser = messageEJB.findClientByLogin(login);
-        System.out.println(verUser);
+
         if (password != null && login != null && verUser != null
                 && verUser.getPassword().equals(password)
                 && verUser.getLogin().equals(login)) {

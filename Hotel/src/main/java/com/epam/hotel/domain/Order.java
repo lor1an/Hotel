@@ -32,28 +32,34 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "orders")
 @NamedQueries({
-    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o"),}
+    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o")}
 )
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne
     private Room room;
     @Column(name = "from_date")
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date fromDate;
+    
     @Column(name = "to_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date toDate;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     private Client client;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     private Manager manager;
+    
     @Enumerated(EnumType.ORDINAL)
     private OrderType type;
+    
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus status;
     @Column(name = "payment")

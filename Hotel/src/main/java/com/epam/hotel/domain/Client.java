@@ -50,7 +50,7 @@ public class Client extends User {
     @Column(name = "region", length = 32)
     private String region;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "client")
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.EAGER, mappedBy = "client")
     private List<Order> clientOrders;
 
     public Client() {
@@ -134,7 +134,7 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return "Client{" + "name=" + name + ", surname=" + surname + ", phone=" + phone + ", email=" + email + ", address=" + address + ", city=" + city + ", region=" + region + ", clientOrders=" + clientOrders + '}';
+        return super.toString() + "Client{" + "name=" + name + ", surname=" + surname + ", phone=" + phone + ", email=" + email + ", address=" + address + ", city=" + city + ", region=" + region + ", clientOrders=" + clientOrders + '}';
     }
 
 }

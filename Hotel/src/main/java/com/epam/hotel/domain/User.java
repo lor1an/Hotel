@@ -25,7 +25,7 @@ import javax.persistence.Table;
 public abstract class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     @Column(name = "login", length = 32)
@@ -63,6 +63,11 @@ public abstract class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", login=" + login + ", password=" + password + '}';
     }
 
 }

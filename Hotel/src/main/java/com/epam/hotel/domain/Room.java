@@ -38,7 +38,7 @@ import javax.persistence.Table;
 public class Room implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "room_number")

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
+
     <style>    
         body{
             background-color:ghostwhite
@@ -29,7 +32,7 @@
                 PF('innerDlg').jq.effect("shake", {times: 5}, 100);
             }
             else {
-
+                
                 PF('innerDlg').hide();
                 location.reload();
                 $('#loginLink').fadeOut();
@@ -49,9 +52,7 @@
             PF('dlg').hide();
             PF('innerDlg').show();
         }
-
-
-
+        
     </script>
     <f:view contentType="text/html">
         <h:head>
@@ -98,6 +99,7 @@
                                             </h:form>
                                         </p:confirmDialog>
 
+
                                         <p:dialog header="Login" widgetVar="innerDlg" resizable="false" appendTo="@(body)" modal="true" closable="false">
                                             <h:form id="dlgform">
                                                 <p:messages id="msgs" />
@@ -110,9 +112,7 @@
                                                     <p:message for="password" display="icon" />
                                                     <p:commandButton  value="Login" update="dlgform" action="#{sessionController.verifyUser()}"
                                                                       oncomplete="handleLoginRequest(xhr, status, args)" />
-                                                    <p:commandButton  value="Register" action="#{orderBuilder.goToReg()}" />    
-                                                    <p:commandButton  value="Main Page" action="#{orderBuilder.goToMain()}" />    
-
+                                                    <p:commandButton  value="Close" onclick="reload()" />    
                                                 </h:panelGrid>
                                             </h:form>
                                         </p:dialog>
@@ -126,17 +126,52 @@
                         <p:layoutUnit position="center">
                             <h:form></h:form>
                             <h:form id="orderData">
-                                <h:panelGrid columns="1">
-                                    <p:remoteCommand name="initBean" action="#{orderBuilder.init()}" update="orderData"/>
-                                    <h:outputText value="Summary" style="font-size: 40px"/>
-                                    <h:outputText value="#{orderBuilder.client.name}"/>
-                                    <h:outputText value="#{orderBuilder.client.surname}"/>
-                                    <h:outputText value="#{orderBuilder.client.email}"/>
-                                    <h:outputText value="#{orderBuilder.findRoomController.from}"/>
-                                    <h:outputText value="#{orderBuilder.findRoomController.to}"/>
-                                    <h:outputText value="#{orderBuilder.payment}$"/>
-                                    <h:outputFormat/>
-                                </h:panelGrid>
+                                <p:remoteCommand name="initBean" action="#{orderBuilder.init()}" update="orderData"/>
+                                <p:panel header="Reservation Summary" >
+                                    <h:panelGrid columns="1" rendered="#{sessionController.loggedIn}" frame="border" >
+                                        <h:panelGrid columns="2" >
+                                            <p:graphicImage value="/rooms/images/room#{orderBuilder.selectedRoom.id}.jpg" height="200" width="350" /> 
+                                            <h:outputText value="One King or Queen bed. Large work desk. Business travelers and couples will enjoy this room's solid wood. Each room accommodation includes an oversized chair with ottoman, in-room safe, flat-screen TV with a full selection of HD programming, bathtub or glass shower. Sleep soundly in comfortable bedding with Hilton's Serenity mattress, feather and down pillows, and luxurious striped linens." />
+                                        </h:panelGrid>
+                                        <p:separator/>
+                                        <h:outputText value="#{orderBuilder.client.name} #{orderBuilder.client.surname}"/>
+                                        <h:outputText value="#{orderBuilder.client.email}"/>
+                                        <p:separator/>
+                                        <h:outputText value="#{orderBuilder.fromDate} - #{orderBuilder.toDate}"/>
+                                        <p:separator/>
+                                        <h:outputText value="Total for stay: #{orderBuilder.payment}$"/>
+                                        <p:separator/>
+                                        <h:panelGrid columns="2" >
+                                            <p:commandButton  value="Pay" action="#{orderBuilder.makeOrder()}" /> 
+                                            <p:commandButton  value="Cancel" action="anotherpage?faces-redirect=true" /> 
+                                        </h:panelGrid>
+                                        <p:dialog widgetVar="payDlg" appendTo="@(body)" header="Payment information" resizable="false" modal="true">
+                                            <h:form>
+                                                <h:panelGrid  columns="2" >
+                                                    <h:outputText value="Card number:"/>
+                                                    <h:inputText/>
+                                                    <h:panelGrid  columns="2">
+                                                        <h:outputText value="Expiration: "/>
+                                                        <p:selectOneMenu>
+                                                            <c:forEach var="i" begin="0" end="#{orderBuilder.months.size()-1}">
+                                                                <f:selectItem  itemLabel="#{orderBuilder.months.get(i)}" />
+                                                            </c:forEach>
+                                                        </p:selectOneMenu>    
+                                                    </h:panelGrid>
+                                                    <p:selectOneMenu>
+                                                        <c:forEach var="i" begin="0" end="#{orderBuilder.years.size()-1}">
+                                                            <f:selectItem  itemLabel="#{orderBuilder.years.get(i)}" />
+                                                        </c:forEach>
+                                                    </p:selectOneMenu>  
+                                                    <h:panelGrid  columns="2">
+                                                        <p:commandButton  value="Pay" action="#{orderBuilder.makeOrder()}" /> 
+                                                        <p:commandButton  value="Close" type="reset" onclick="PF('payDlg').hide();"/> 
+                                                    </h:panelGrid>
+                                                </h:panelGrid>
+                                            </h:form>
+                                        </p:dialog>
+                                    </h:panelGrid>
+                                </p:panel>
                             </h:form>
                         </p:layoutUnit>
 

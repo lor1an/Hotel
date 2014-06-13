@@ -47,30 +47,11 @@ public class OrderRepository {
     }
 
     public void insertOrder(Order order) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(order);
-            entityManager.getTransaction().commit();
-
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
+        entityManager.persist(order);
     }
 
-  
-
     public void udpateOrder(Order order) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.merge(order);
-            entityManager.getTransaction().commit();
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
+        entityManager.merge(order);
     }
 
     public void deleteRoom(Order order) {

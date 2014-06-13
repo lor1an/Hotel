@@ -8,10 +8,15 @@ package com.epam.hotel.controllers;
 import com.epam.hotel.domain.Client;
 import com.epam.hotel.domain.Order;
 import com.epam.hotel.domain.Room;
+import com.epam.hotel.domain.enums.OrderStatus;
 import com.epam.hotel.domain.enums.OrderType;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -32,6 +37,17 @@ public class OrderBuilder {
     private Client client;
     private int dayCount;
     private int payment;
+    private String fromDate;
+    private String toDate;
+    private final String[] m = new String[]{"01 Jan", "02 Feb", "03 Mar", "04 Apr",
+        "05 May", "06 Jun", "07 Jul", "08 Aug", "09 Sep", "10 Oct", "11 Nov", "12 Dec"};
+    private final String[] y = new String[]{"2014", "2015", "2016", "2017",
+        "2018", "2019", "2020", "2021", "2022", "2023", "2024"};
+    private final List<String> months = new ArrayList(Arrays.asList(m));
+    private final List<String> years = new ArrayList(Arrays.asList(y));
+
+    @EJB
+    MessageBean messageEJB;
 
     @ManagedProperty(value = "#{findRoomController}")
     private FindRoomController findRoomController;
@@ -53,6 +69,7 @@ public class OrderBuilder {
 
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+
     }
 
     public Client getClient() {
@@ -79,6 +96,30 @@ public class OrderBuilder {
         this.payment = payment;
     }
 
+    public String getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
+    }
+
+    public List<String> getMonths() {
+        return months;
+    }
+
+    public List<String> getYears() {
+        return years;
+    }
+
     public FindRoomController getFindRoomController() {
         return findRoomController;
     }
@@ -95,49 +136,45 @@ public class OrderBuilder {
         this.sessionController = sessionController;
     }
 
-    public void show() {
-        System.out.println(OrderType.valueOf(orderType));
-        System.out.println(selectedRoom);
-        System.out.println(findRoomController.getFrom());
-        System.out.println(findRoomController.getTo());
+    public MessageBean getMessageEJB() {
+        return messageEJB;
     }
 
-    public void makeOrder() {
-        Order order = new Order();
+    public void setMessageEJB(MessageBean messageEJB) {
+        this.messageEJB = messageEJB;
     }
 
     public void init() {
-        System.out.println("INIT");
         client = (Client) sessionController.getUser();
-        System.out.println(client);
         long diff = findRoomController.getTo().getTime() - findRoomController.getFrom().getTime();
-        System.out.println(diff);
         dayCount = (int) (diff / ONE_DAY);
-        System.out.println(dayCount);
         payment = selectedRoom.getCost() * dayCount;
-        System.out.println(payment);
-        System.out.println(selectedRoom);
-        System.out.println(findRoomController.getFrom());
-        System.out.println(findRoomController.getTo());
+        fromDate = findRoomController.getFrom().toString().substring(0, 10);
+        toDate = findRoomController.getTo().toString().substring(0, 10);
+        System.out.println(client);
     }
 
-    public void goToReg() {
-        System.out.println("reg");
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().
-                    redirect("reg.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void goToMain() {
-        System.out.println("main");
+    public void makeOrder() {
+        System.out.println("qweqweqwe");
+        Order order = new Order();
+        order.setManager(null);
+        order.setClient(client);
+        System.out.println(client);
+        order.setFromDate(findRoomController.getFrom());
+        order.setToDate(findRoomController.getTo());
+        order.setPayment(payment);
+        order.setRoom(selectedRoom);
+        order.setStatus(OrderStatus.OPEN);
+        order.setType(OrderType.ORDERING);
+        messageEJB.addOrder(order);
+        System.out.println("sfsdfsdf");
         try {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("index.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
+
 }
