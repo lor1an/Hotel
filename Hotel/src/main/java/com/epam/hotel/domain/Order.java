@@ -32,7 +32,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "orders")
 @NamedQueries({
-    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o")}
+    @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o"),
+    @NamedQuery(name = "Order.getFreeRoomsWithOpenRequests", query = "SELECT o.room from"
+            + " Order o WHERE "
+            + "(o.fromDate<=:departure AND o.toDate>=:arrival) AND o.status!=:status")}
 )
 public class Order implements Serializable {
 
@@ -43,23 +46,23 @@ public class Order implements Serializable {
     @OneToOne
     private Room room;
     @Column(name = "from_date")
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date fromDate;
-    
+
     @Column(name = "to_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date toDate;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Client client;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Manager manager;
-    
+
     @Enumerated(EnumType.ORDINAL)
     private OrderType type;
-    
+
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus status;
     @Column(name = "payment")

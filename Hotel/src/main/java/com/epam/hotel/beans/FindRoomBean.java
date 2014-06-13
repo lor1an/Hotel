@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.controllers;
+package com.epam.hotel.beans;
 
 import com.epam.hotel.domain.Room;
 import com.epam.hotel.domain.enums.RoomComfort;
@@ -19,14 +19,13 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "findRoomController")
 @SessionScoped
-public class FindRoomController {
+public class FindRoomBean {
 
     private Date from;
     private Date to;
     private String bounds;
     private String comfort;
     private Date today = new Date();
-
     List<Room> freeRooms;
 
     @EJB
@@ -89,30 +88,35 @@ public class FindRoomController {
     }
 
     public void click() {
-        //  System.out.println(comfort);
-
-        freeRooms = messageEJB.getRoom(from, to);
         RoomComfort comfortToSend;
         Integer boundsToSend;
-        if ("NOSELECT".equals(comfort)) {
+        if ("NOSELECT".equals(comfort) || comfort == null) {
             comfortToSend = null;
         } else {
             comfortToSend = RoomComfort.valueOf(comfort);
         }
-        if ("NOSELECT".equals(bounds)) {
+        if ("NOSELECT".equals(bounds) || bounds == null) {
             boundsToSend = null;
         } else {
             boundsToSend = new Integer(bounds);
         }
-        messageEJB.getFreeRooms(null, null, comfortToSend, boundsToSend);
-        System.out.println(freeRooms);
+        freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend);
+
         try {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("anotherpage.xhtml");
         } catch (IOException ex) {
-            Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void clear() {
+        bounds = null;
+        comfort = null;
+        freeRooms = null;
+        from = null;
+        to = null;
     }
 
 }

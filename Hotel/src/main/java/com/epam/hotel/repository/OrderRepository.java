@@ -6,10 +6,13 @@
 package com.epam.hotel.repository;
 
 import com.epam.hotel.domain.Order;
+import com.epam.hotel.domain.Room;
 import com.epam.hotel.domain.enums.OrderStatus;
 import com.epam.hotel.domain.enums.OrderType;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -66,6 +69,19 @@ public class OrderRepository {
                     entityManager.getTransaction().rollback();
                 }
             }
+        }
+    }
+
+    public List<Room> getFreeRoomsWithFromOrders(Date arrival, Date departure) {
+        TypedQuery<Room> roomQuery = entityManager.createNamedQuery("Order.getFreeRoomsWithOpenRequests", Room.class);
+        roomQuery.setParameter("status", OrderStatus.CLOSED);
+        roomQuery.setParameter("arrival", arrival);
+        roomQuery.setParameter("departure", departure);
+        try {
+            List<Room> list = roomQuery.getResultList();
+            return list;
+        } catch (NoResultException e) {
+            return null;
         }
     }
 }

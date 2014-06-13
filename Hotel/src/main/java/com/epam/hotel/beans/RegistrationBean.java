@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.controllers;
+package com.epam.hotel.beans;
 
 import com.epam.hotel.domain.Client;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
-@ManagedBean
-public class RegistrationController {
+@ManagedBean(name = "registrationController")
+public class RegistrationBean {
 
     private String name;
     private String surname;
@@ -27,7 +27,7 @@ public class RegistrationController {
     private String region;
 
     @ManagedProperty(value = "#{sessionController}")
-    SessionController sc;
+    SessionBean sc;
     private @EJB
     MessageBean messageEJB;
 
@@ -95,14 +95,13 @@ public class RegistrationController {
         this.region = region;
     }
 
-    public SessionController getSc() {
+    public SessionBean getSc() {
         return sc;
     }
 
-    public void setSc(SessionController sc) {
+    public void setSc(SessionBean sc) {
         this.sc = sc;
     }
-    
 
     public void save() {
         Client c = new Client(name, surname, phone, email, name, city, region,
@@ -122,7 +121,7 @@ public class RegistrationController {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("index.xhtml");
         } catch (IOException ex) {
-            Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

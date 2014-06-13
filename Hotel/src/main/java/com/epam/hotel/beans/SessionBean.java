@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.controllers;
+package com.epam.hotel.beans;
 
 import com.epam.hotel.domain.User;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -22,7 +19,7 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean(name = "sessionController")
 @SessionScoped
-public class SessionController {
+public class SessionBean {
 
     private String login;
     private String password;
@@ -105,8 +102,4 @@ public class SessionController {
 
     }
 
-    public void sayHi() {
-        System.out.println("sdlkfsldkfjsf");
-
-    }
 }

@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.epam.hotel.controllers;
+package com.epam.hotel.beans;
 
 import com.epam.hotel.domain.Client;
 import com.epam.hotel.domain.Order;
@@ -26,9 +21,9 @@ import javax.faces.context.FacesContext;
  *
  * @author lor1an
  */
-@ManagedBean
+@ManagedBean(name = "orderBuilder")
 @SessionScoped
-public class OrderBuilder {
+public class OrderBean {
 
     private final long ONE_DAY = 86400000;
 
@@ -50,10 +45,10 @@ public class OrderBuilder {
     MessageBean messageEJB;
 
     @ManagedProperty(value = "#{findRoomController}")
-    private FindRoomController findRoomController;
+    private FindRoomBean findRoomController;
 
     @ManagedProperty(value = "#{sessionController}")
-    private SessionController sessionController;
+    private SessionBean sessionController;
 
     public Room getSelectedRoom() {
         return selectedRoom;
@@ -120,19 +115,19 @@ public class OrderBuilder {
         return years;
     }
 
-    public FindRoomController getFindRoomController() {
+    public FindRoomBean getFindRoomController() {
         return findRoomController;
     }
 
-    public void setFindRoomController(FindRoomController frc) {
+    public void setFindRoomController(FindRoomBean frc) {
         this.findRoomController = frc;
     }
 
-    public SessionController getSessionController() {
+    public SessionBean getSessionController() {
         return sessionController;
     }
 
-    public void setSessionController(SessionController sessionController) {
+    public void setSessionController(SessionBean sessionController) {
         this.sessionController = sessionController;
     }
 
@@ -155,7 +150,6 @@ public class OrderBuilder {
     }
 
     public void makeOrder() {
-        System.out.println("qweqweqwe");
         Order order = new Order();
         order.setManager(null);
         order.setClient(client);
@@ -167,12 +161,11 @@ public class OrderBuilder {
         order.setStatus(OrderStatus.OPEN);
         order.setType(OrderType.ORDERING);
         messageEJB.addOrder(order);
-        System.out.println("sfsdfsdf");
         try {
             FacesContext.getCurrentInstance().getExternalContext().
                     redirect("index.xhtml");
         } catch (IOException ex) {
-            Logger.getLogger(FindRoomController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

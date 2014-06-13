@@ -1,4 +1,4 @@
-package com.epam.hotel.controllers;
+package com.epam.hotel.beans;
 
 import com.epam.hotel.domain.Client;
 import com.epam.hotel.domain.Order;
@@ -10,13 +10,8 @@ import com.epam.hotel.repository.RoomRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.Stateless;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -30,11 +25,6 @@ public class MessageBean implements Serializable {
     public Room getRoom() {
         RoomRepository rr = new RoomRepository(manager);
         return rr.getRoomById(1);
-    }
-
-    public List<Room> getRoom(Date from, Date to) {
-        RoomRepository rr = new RoomRepository(manager);
-        return rr.getFreeRooms(from, to);
     }
 
     public void createNewClient(Client c) {
@@ -52,9 +42,12 @@ public class MessageBean implements Serializable {
         or.udpateOrder(o);
     }
 
-    public void getFreeRooms(Date from, Date to,
+    public List<Room> getFreeRooms(Date from, Date to,
             RoomComfort comfort, Integer bound) {
+        RoomRepository rr = new RoomRepository(manager);
+        OrderRepository or = new OrderRepository(manager);
         StringBuilder query = new StringBuilder();
+        List<Room> firstList;
         boolean flag;
         query.append("SELECT DISTINCT r ");
         query.append("FROM Room r ");
@@ -84,8 +77,20 @@ public class MessageBean implements Serializable {
                 q.setParameter("more", bound - 1);
                 q.setParameter("less", bound);
             }
-            List<Room> firstList = q.getResultList();
+            firstList = q.getResultList();
+            System.out.println(firstList);
+        } else {
+            firstList = rr.getAllRooms();
         }
+        List<Room> secondList;
+        secondList = or.getFreeRoomsWithFromOrders(from, to);
+        System.out.println("------------");
+        System.out.println(firstList);
+        System.out.println(secondList);
+
+        System.out.println("------------");
+        firstList.removeAll(secondList);
+        return firstList;
 
     }
 }
