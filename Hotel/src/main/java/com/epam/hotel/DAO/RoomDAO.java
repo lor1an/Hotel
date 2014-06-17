@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.repository;
+package com.epam.hotel.DAO;
 
-import com.epam.hotel.domain.Room;
-import com.epam.hotel.domain.enums.OrderStatus;
+import com.epam.hotel.model.Room;
+import com.epam.hotel.model.enums.OrderStatus;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -17,14 +17,14 @@ import javax.persistence.TypedQuery;
  *
  * @author Anatolii_Hlazkov
  */
-public class RoomRepository {
+public class RoomDAO {
 
     private EntityManager entityManager;
 
-    public RoomRepository() {
+    public RoomDAO() {
     }
 
-    public RoomRepository(EntityManager entityManager) {
+    public RoomDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

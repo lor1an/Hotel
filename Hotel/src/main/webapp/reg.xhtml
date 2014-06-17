@@ -65,12 +65,11 @@
                                         <p:message for="name" display="icon" />
 
                                         <p:outputLabel for="surname" value="Surname:" />
-                                        <p:inputText id="surname" value="#{registrationController.surname}" label="Surname" required="true">
-
+                                        <p:inputText id="surname" value="#{registrationController.surname}" label="Surname" required="true" requiredMessage="sfsdf">
                                             <f:validateLength minimum="2" />
                                             <p:ajax update="msgLastname" event="keyup" />
                                         </p:inputText>
-                                        <p:message for="surname" id="msgLastname" display="icon" />
+                                        <p:message for="surname" id="msgLastname"  />
 
                                         <p:outputLabel for="login" value="Login:" />
                                         <p:inputText id="login" value="#{registrationController.login}" required="true" label="Login" requiredMessage="blabla">

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.domain;
+package com.epam.hotel.model;
 
-import com.epam.hotel.domain.enums.RoomComfort;
+import com.epam.hotel.model.enums.RoomComfort;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;

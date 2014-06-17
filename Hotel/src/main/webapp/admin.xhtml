@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>
+                <ui:insert name="title">Admin page</ui:insert>            
+            </title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                <p:layoutUnit position="west" size="195" > 
+                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="east" size="195">
+                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h:form id="dtForm">
+                        <p:tabView>
+                            <p:tab title="Rooms">
+                                <p:dataTable var="room" value="#{adminRoomBean.rooms}" paginator="true"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                    <p:column headerText="ID" sortBy="#{room.id}" filterBy="#{room.id}">
+                                        <h:outputText value="#{room.id}"/>
+                                    </p:column>
+                                    <p:column headerText="Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}">
+                                        <h:outputText value="#{room.roomNumber}"/>
+                                    </p:column>
+                                    <p:column headerText="Capacity" sortBy="#{room.capacity}" filterBy="#{room.capacity}">
+                                        <h:outputText value="#{room.capacity}"/>
+                                    </p:column>
+                                    <p:column headerText="Cost" sortBy="#{room.cost}" filterBy="#{room.cost}">
+                                        <h:outputText value="#{room.cost}"/>
+                                    </p:column>
+                                    <p:column headerText="Comfort" sortBy="#{room.comfort}" filterBy="#{room.comfort}">
+                                        <h:outputText value="#{room.comfort}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:panelGrid columns="4">
+                                    <p:commandButton value="Add" />
+                                    <p:commandButton value="Delete" />
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+
+        </h:body>
+    </f:view>
+</html>

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.repository;
+package com.epam.hotel.DAO;
 
-import com.epam.hotel.domain.Client;
+import com.epam.hotel.model.Client;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -15,14 +15,14 @@ import javax.persistence.TypedQuery;
  *
  * @author Anatolii_Hlazkov
  */
-public class ClientRepository {
+public class ClientDAO {
 
     private EntityManager entityManager;
 
-    public ClientRepository() {
+    public ClientDAO() {
     }
 
-    public ClientRepository(EntityManager entityManager) {
+    public ClientDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

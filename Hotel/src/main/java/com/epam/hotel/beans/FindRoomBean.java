@@ -5,8 +5,8 @@
  */
 package com.epam.hotel.beans;
 
-import com.epam.hotel.domain.Room;
-import com.epam.hotel.domain.enums.RoomComfort;
+import com.epam.hotel.model.Room;
+import com.epam.hotel.model.enums.RoomComfort;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -100,6 +100,8 @@ public class FindRoomBean {
         } else {
             boundsToSend = new Integer(bounds);
         }
+        System.out.println(from);
+        System.out.println(to);
         freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend);
 
         try {

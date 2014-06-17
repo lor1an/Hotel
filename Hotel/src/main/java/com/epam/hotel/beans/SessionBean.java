@@ -5,7 +5,7 @@
  */
 package com.epam.hotel.beans;
 
-import com.epam.hotel.domain.User;
+import com.epam.hotel.model.User;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

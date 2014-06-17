@@ -1,12 +1,12 @@
 package com.epam.hotel.beans;
 
-import com.epam.hotel.domain.Client;
-import com.epam.hotel.domain.Order;
-import com.epam.hotel.domain.Room;
-import com.epam.hotel.domain.enums.RoomComfort;
-import com.epam.hotel.repository.ClientRepository;
-import com.epam.hotel.repository.OrderRepository;
-import com.epam.hotel.repository.RoomRepository;
+import com.epam.hotel.model.Client;
+import com.epam.hotel.model.Order;
+import com.epam.hotel.model.Room;
+import com.epam.hotel.model.enums.RoomComfort;
+import com.epam.hotel.DAO.ClientDAO;
+import com.epam.hotel.DAO.OrderDAO;
+import com.epam.hotel.DAO.RoomDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,30 +22,30 @@ public class MessageBean implements Serializable {
     @PersistenceContext(unitName = "COLIBRI")
     private EntityManager manager;
 
-    public Room getRoom() {
-        RoomRepository rr = new RoomRepository(manager);
-        return rr.getRoomById(1);
+    public List<Room> getAllRooms() {
+        RoomDAO rr = new RoomDAO(manager);
+        return rr.getAllRooms();
     }
 
     public void createNewClient(Client c) {
-        ClientRepository cr = new ClientRepository(manager);
+        ClientDAO cr = new ClientDAO(manager);
         cr.insertClient(c);
     }
 
     public Client findClientByLogin(String login) {
-        ClientRepository cr = new ClientRepository(manager);
+        ClientDAO cr = new ClientDAO(manager);
         return cr.getClientByLogin(login);
     }
 
     public void addOrder(Order o) {
-        OrderRepository or = new OrderRepository(manager);
+        OrderDAO or = new OrderDAO(manager);
         or.udpateOrder(o);
     }
 
     public List<Room> getFreeRooms(Date from, Date to,
             RoomComfort comfort, Integer bound) {
-        RoomRepository rr = new RoomRepository(manager);
-        OrderRepository or = new OrderRepository(manager);
+        RoomDAO rr = new RoomDAO(manager);
+        OrderDAO or = new OrderDAO(manager);
         StringBuilder query = new StringBuilder();
         List<Room> firstList;
         boolean flag;

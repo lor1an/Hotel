@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.epam.hotel.domain;
+package com.epam.hotel.model;
 
-import com.epam.hotel.domain.enums.OrderStatus;
-import com.epam.hotel.domain.enums.OrderType;
+import com.epam.hotel.model.enums.OrderStatus;
+import com.epam.hotel.model.enums.OrderType;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;

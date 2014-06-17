@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package com.epam.hotel.domain.enums;
+package com.epam.hotel.model.enums;
 
 /**
  *
- * @author lor1an
+ * @author Anatolii_Hlazkov
  */
-public enum RoomComfort {
-    LUX, SUIT, USUAL
+public enum OrderType {
+    BOOKING, ORDERING
 }
