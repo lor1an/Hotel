@@ -33,6 +33,7 @@ import javax.persistence.TemporalType;
 @Table(name = "orders")
 @NamedQueries({
     @NamedQuery(name = "Order.getAllOrders", query = "SELECT o from Order o"),
+    @NamedQuery(name = "Order.getAllClientOrders", query = "SELECT o from Order o WHERE o.client=:client"),
     @NamedQuery(name = "Order.getFreeRoomsWithOpenRequests", query = "SELECT o.room from"
             + " Order o WHERE "
             + "(o.fromDate<=:departure AND o.toDate>=:arrival) AND o.status!=:status")}

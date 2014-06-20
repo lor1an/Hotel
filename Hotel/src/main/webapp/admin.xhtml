@@ -20,15 +20,17 @@ and open the template in the editor.
         </h:head>
         <h:body>
             <p:layout fullPage="true">
-                <p:layoutUnit position="west" size="195" > 
-                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                <p:layoutUnit position="west" size="200" > 
+                    <h:graphicImage height="700" width="190" value="/west.PNG"/>
                 </p:layoutUnit>
-                <p:layoutUnit position="east" size="195">
-                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                <p:layoutUnit position="east" size="200">
+                    <h:graphicImage height="700" width="190"  value="/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
                     <h:form id="dtForm">
+                        <p:remoteCommand name="rc" action="#{adminClientsBean.meth()}" autoRun="true" rendered="false"/>
+                        
                         <p:tabView>
                             <p:tab title="Rooms">
                                 <p:dataTable var="room" value="#{adminRoomBean.rooms}" paginator="true"
@@ -54,6 +56,61 @@ and open the template in the editor.
                                     <p:commandButton value="Delete" />
                                 </h:panelGrid>
                             </p:tab>
+                            <p:tab title="Client">
+                                <p:dataTable var="client" value="#{adminClientsBean.clients}" paginator="true"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                    <p:column headerText="ID" sortBy="#{client.id}" filterBy="#{client.id}">
+                                        <h:outputText value="#{client.id}"/>
+                                    </p:column>
+                                    <p:column headerText="Name" sortBy="#{client.name}" filterBy="#{client.name}">
+                                        <h:outputText value="#{client.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Surname" sortBy="#{client.surname}" filterBy="#{client.surname}">
+                                        <h:outputText value="#{client.surname}"/>
+                                    </p:column>
+                                    <p:column headerText="Login" sortBy="#{client.login}" filterBy="#{client.login}">
+                                        <h:outputText value="#{client.login}"/>
+                                    </p:column>
+                                    <p:column headerText="Phone" sortBy="#{client.phone}" filterBy="#{client.phone}">
+                                        <h:outputText value="#{client.phone}"/>
+                                    </p:column>
+                                    <p:column headerText="City" sortBy="#{client.city}" filterBy="#{client.city}">
+                                        <h:outputText value="#{client.city}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:panelGrid columns="4">
+                                    <p:commandButton value="Add" />
+                                    <p:commandButton value="Delete" />
+                                </h:panelGrid>
+                            </p:tab>
+
+                            <p:tab title="Orders">
+                                <p:dataTable var="order" value="#{adminOrdersBean.orders}" paginator="true"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                    <p:column headerText="ID" sortBy="#{order.id}" filterBy="#{order.id}">
+                                        <h:outputText value="#{order.id}"/>
+                                    </p:column>
+                                    <p:column headerText="Client login" sortBy="#{order.client.login}" filterBy="#{order.client.login}">
+                                        <h:outputText value="#{order.client.login}"/>
+                                    </p:column>
+                                    <p:column headerText="From date" sortBy="#{order.fromDate}" filterBy="#{order.fromDate}">
+                                        <h:outputText value="#{order.fromDate}"/>
+                                    </p:column>
+                                    <p:column headerText="To date" sortBy="#{order.toDate}" filterBy="#{order.toDate}">
+                                        <h:outputText value="#{order.toDate}"/>
+                                    </p:column>
+                                    <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}">
+                                        <h:outputText value="#{order.status}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:panelGrid columns="4">
+                                    <p:commandButton value="Add" />
+                                    <p:commandButton value="Delete" />
+                                </h:panelGrid>
+                            </p:tab>
+
+
+
                         </p:tabView>
                     </h:form>
                 </p:layoutUnit>

@@ -93,4 +93,20 @@ public class MessageBean implements Serializable {
         return firstList;
 
     }
+
+    public List<Order> getAllOrders() {
+        OrderDAO or = new OrderDAO(manager);
+        return or.getAllOrders();
+
+    }
+
+    public List<Client> getAllClients() {
+        ClientDAO clientDAO = new ClientDAO(manager);
+        return clientDAO.getAllClients();
+    }
+
+    public List<Order> getOrdersByClient(Client client) {
+        OrderDAO or = new OrderDAO(manager);
+        return or.getAllClientOrders();
+    }
 }

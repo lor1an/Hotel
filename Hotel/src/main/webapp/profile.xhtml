@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <style>    
+        body{
+            background-color:ghostwhite
+        }
+        div.ui-layout-unit {
+            padding-top: 0 !important;
+            padding-right:  0 !important;
+            padding-bottom:  0 !important;
+            padding-left:  0 !important;
+        }
+        div.ui-datepicker{
+            font-size:12px!important;
+        } 
+        div.ui-carousel-header select {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        function handleLoginRequest(xhr, status, args) {
+            if (args.validationFailed || !args.loggedIn) {
+                PF('dlg').jq.effect("shake", {times: 5}, 100);
+            }
+            else {
+                PF('dlg').hide();
+                location.reload();
+                $('#loginLink').fadeOut();
+            }
+        }
+        function reload() {
+            location.reload();
+        }
+        function showDialog(loggedIn) {
+            if (!loggedIn) {
+                PF('dlg').show();
+            }
+        }
+
+
+
+    </script>
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>
+                <ui:insert name="title">Hotel</ui:insert>
+            </title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+        </h:head>
+
+        <h:body>
+            <p:layout fullPage="true">
+                <p:layoutUnit position="west" size="200" > 
+                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="east" size="200">
+                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <p:layout>
+                        <p:layoutUnit position="north">
+                            <h:panelGrid columns="2">
+                                <h:graphicImage value="/logo.png"></h:graphicImage>
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
+                                    <h:panelGrid columns="3">
+                                        <h:form id="logform">      
+                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}"  oncomplete="reload()"/>
+                                            <p:commandButton  value="Main Page" action="index?faces-redirect=true" />    
+                                        </h:form>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:layoutUnit>
+
+                        <p:layoutUnit position="center">
+                            <h:form id="dtForm">
+                                <p:remoteCommand name="rc" action="#{adminClientsBean.meth()}" autoRun="true" rendered="false"/>
+
+                                <p:tabView>
+                                    <p:tab title="My orders">
+                                        <p:dataTable var="order" value="#{profileBean.myOrders}" paginator="true"
+                                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                            <p:column headerText="ID" sortBy="#{order.id}" filterBy="#{order.id}">
+                                                <h:outputText value="#{order.id}"/>
+                                            </p:column>
+                                            <p:column headerText="Client login" sortBy="#{order.client.login}" filterBy="#{order.client.login}">
+                                                <h:outputText value="#{order.client.login}"/>
+                                            </p:column>
+                                            <p:column headerText="From date" sortBy="#{order.fromDate}" filterBy="#{order.fromDate}">
+                                                <h:outputText value="#{order.fromDate}"/>
+                                            </p:column>
+                                            <p:column headerText="To date" sortBy="#{order.toDate}" filterBy="#{order.toDate}">
+                                                <h:outputText value="#{order.toDate}"/>
+                                            </p:column>
+                                            <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}">
+                                                <h:outputText value="#{order.status}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <h:panelGrid columns="4">
+                                            <p:commandButton value="Add" />
+                                            <p:commandButton value="Delete" />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Discounts">
+                                        <p:dataTable var="room" value="#{adminRoomBean.rooms}" paginator="true"
+                                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                            <p:column headerText="ID" sortBy="#{room.id}" filterBy="#{room.id}">
+                                                <h:outputText value="#{room.id}"/>
+                                            </p:column>
+                                            <p:column headerText="Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}">
+                                                <h:outputText value="#{room.roomNumber}"/>
+                                            </p:column>
+                                            <p:column headerText="Capacity" sortBy="#{room.capacity}" filterBy="#{room.capacity}">
+                                                <h:outputText value="#{room.capacity}"/>
+                                            </p:column>
+                                            <p:column headerText="Cost" sortBy="#{room.cost}" filterBy="#{room.cost}">
+                                                <h:outputText value="#{room.cost}"/>
+                                            </p:column>
+                                            <p:column headerText="Comfort" sortBy="#{room.comfort}" filterBy="#{room.comfort}">
+                                                <h:outputText value="#{room.comfort}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <h:panelGrid columns="4">
+                                            <p:commandButton value="Add" />
+                                            <p:commandButton value="Delete" />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Edit personal data">
+                                        <p:dataTable var="room" value="#{adminRoomBean.rooms}" paginator="true"
+                                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                            <p:column headerText="ID" sortBy="#{room.id}" filterBy="#{room.id}">
+                                                <h:outputText value="#{room.id}"/>
+                                            </p:column>
+                                            <p:column headerText="Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}">
+                                                <h:outputText value="#{room.roomNumber}"/>
+                                            </p:column>
+                                            <p:column headerText="Capacity" sortBy="#{room.capacity}" filterBy="#{room.capacity}">
+                                                <h:outputText value="#{room.capacity}"/>
+                                            </p:column>
+                                            <p:column headerText="Cost" sortBy="#{room.cost}" filterBy="#{room.cost}">
+                                                <h:outputText value="#{room.cost}"/>
+                                            </p:column>
+                                            <p:column headerText="Comfort" sortBy="#{room.comfort}" filterBy="#{room.comfort}">
+                                                <h:outputText value="#{room.comfort}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <h:panelGrid columns="4">
+                                            <p:commandButton value="Add" />
+                                            <p:commandButton value="Delete" />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:tabView>
+                        </p:layoutUnit>
+
+                    </p:layout>
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>

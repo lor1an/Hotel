@@ -8,7 +8,6 @@ package com.epam.hotel.DAO;
 import com.epam.hotel.model.Order;
 import com.epam.hotel.model.Room;
 import com.epam.hotel.model.enums.OrderStatus;
-import com.epam.hotel.model.enums.OrderType;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -60,15 +59,7 @@ public class OrderDAO {
     public void deleteRoom(Order order) {
         Order temp = entityManager.find(Order.class, order.getId());
         if (temp != null) {
-            try {
-                entityManager.getTransaction().begin();
-                entityManager.remove(temp);
-                entityManager.getTransaction().commit();
-            } finally {
-                if (entityManager.getTransaction().isActive()) {
-                    entityManager.getTransaction().rollback();
-                }
-            }
+            entityManager.remove(temp);
         }
     }
 
@@ -83,5 +74,9 @@ public class OrderDAO {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public List<Order> getAllClientOrders() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

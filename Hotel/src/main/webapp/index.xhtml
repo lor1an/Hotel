@@ -78,6 +78,7 @@
                                             <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
                                             <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
                                             <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true" rendered="#{!sessionController.loggedIn}"/>
+                                            <p:commandButton id="regbutton" value="My Profile" action="profile?faces-redirect=true" rendered="#{sessionController.loggedIn}"/>
 
                                         </h:form>
 
@@ -118,11 +119,11 @@
 
                                         <h:panelGrid columns="7" cellpadding="5">
                                             <p:outputLabel for="from" value="Arrival:" />
-                                            <p:calendar id="from" value="#{findRoomController.from}"  required="true" requiredMessage="Please enter arrival date" mindate="#{findRoomController.today}" >
+                                            <p:calendar id="from" value="#{findRoomController.from}"  required="true" requiredMessage="Please enter arrival date" mindate="#{findRoomController.today}" readonlyInput="true"  >
                                                 <p:ajax event="dateSelect" update=":formdate:to"/>
                                             </p:calendar>
                                             <p:outputLabel for="to" value="Departure:"/>
-                                            <p:calendar id="to" value="#{findRoomController.to}"  required="true" requiredMessage="Please enter departure date" mindate="#{findRoomController.from}"/>
+                                            <p:calendar id="to" value="#{findRoomController.to}"  required="true" requiredMessage="Please enter departure date" mindate="#{findRoomController.from}"   readonlyInput="true"/>
                                             <p:selectOneMenu id="personmenu" value="#{findRoomController.bounds}">
                                                 <f:selectItem id="qw1" itemLabel="Persons" itemValue="NOSELECT" />
                                                 <f:selectItem id="qw2" itemLabel="1" itemValue="1" />

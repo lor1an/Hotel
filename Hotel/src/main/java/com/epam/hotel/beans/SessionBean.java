@@ -101,5 +101,6 @@ public class SessionBean {
         loggedIn = false;
 
     }
+    
 
 }

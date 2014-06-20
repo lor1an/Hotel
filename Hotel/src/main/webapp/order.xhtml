@@ -32,7 +32,7 @@
                 PF('innerDlg').jq.effect("shake", {times: 5}, 100);
             }
             else {
-                
+
                 PF('innerDlg').hide();
                 location.reload();
                 $('#loginLink').fadeOut();
@@ -52,7 +52,7 @@
             PF('dlg').hide();
             PF('innerDlg').show();
         }
-        
+
     </script>
     <f:view contentType="text/html">
         <h:head>
@@ -152,16 +152,17 @@
                                                     <h:inputText/>
                                                     <h:panelGrid  columns="2">
                                                         <h:outputText value="Expiration: "/>
-                                                        <p:selectOneMenu>
+                                                        <p:selectOneMenu value="Select month">
                                                             <c:forEach var="i" begin="0" end="#{orderBuilder.months.size()-1}">
                                                                 <f:selectItem  itemLabel="#{orderBuilder.months.get(i)}" />
-                                                            </c:forEach>
+                                                            </c:forEach>                                                            
                                                         </p:selectOneMenu>    
                                                     </h:panelGrid>
-                                                    <p:selectOneMenu>
+                                                    <p:selectOneMenu value="Select year">
                                                         <c:forEach var="i" begin="0" end="#{orderBuilder.years.size()-1}">
                                                             <f:selectItem  itemLabel="#{orderBuilder.years.get(i)}" />
                                                         </c:forEach>
+
                                                     </p:selectOneMenu>  
                                                     <h:panelGrid  columns="2">
                                                         <p:commandButton  value="Pay" onclick="rc()" /> 
