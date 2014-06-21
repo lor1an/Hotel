@@ -59,10 +59,10 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
-                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                    <h:graphicImage height="730" width="195" value="/images/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                    <h:graphicImage height="730" width="195"  value="/images/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -70,15 +70,16 @@
                         <p:layoutUnit position="north">
 
                             <h:panelGrid columns="2">
-                                <h:graphicImage value="/logo.png"></h:graphicImage>
+                                <h:graphicImage value="/images/logo_1.png"></h:graphicImage>
                                 <h:panelGrid columns="1">
                                     <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
                                     <h:panelGrid columns="3">
                                         <h:form id="logform">        
                                             <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
-                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
+
+                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}"/>
                                             <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true" rendered="#{!sessionController.loggedIn}"/>
-                                            <p:commandButton id="regbutton" value="My Profile" action="profile?faces-redirect=true" rendered="#{sessionController.loggedIn}"/>
+                                            <p:commandButton id="mprbutton" value="My Profile" action="profile?faces-redirect=true" rendered="#{sessionController.loggedIn}"/>
 
                                         </h:form>
 

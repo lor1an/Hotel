@@ -43,8 +43,7 @@ public class Client extends User {
     private String phone;
     @Column(name = "email", length = 32)
     private String email;
-    @Column(name = "address", length = 32)
-    private String address;
+ 
     @Column(name = "city", length = 32)
     private String city;
     @Column(name = "region", length = 32)
@@ -56,13 +55,13 @@ public class Client extends User {
     public Client() {
     }
 
-    public Client(String name, String surname, String phone, String email, String address, String city, String region, List<Order> clientOrders, String login, String password) {
+    public Client(String name, String surname, String phone, String email,  String city, String region, List<Order> clientOrders, String login, String password) {
         super(login, password);
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.email = email;
-        this.address = address;
+       
         this.city = city;
         this.region = region;
         this.clientOrders = clientOrders;
@@ -84,9 +83,7 @@ public class Client extends User {
         return email;
     }
 
-    public String getAddress() {
-        return address;
-    }
+ 
 
     public String getCity() {
         return city;
@@ -116,9 +113,7 @@ public class Client extends User {
         this.email = email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+ 
 
     public void setCity(String city) {
         this.city = city;
@@ -134,7 +129,7 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return super.toString() + "Client{" + "name=" + name + ", surname=" + surname + ", phone=" + phone + ", email=" + email + ", address=" + address + ", city=" + city + ", region=" + region + ", clientOrders=" + clientOrders + '}';
+        return super.toString() + "Client{" + "name=" + name + ", surname=" + surname + ", phone=" + phone + ", email=" + email +  ", city=" + city + ", region=" + region + ", clientOrders=" + clientOrders + '}';
     }
 
 }

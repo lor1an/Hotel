@@ -22,6 +22,7 @@ import javax.faces.bean.SessionScoped;
 public class ProfileBean {
 
     List<Order> myOrders;
+    Client client;
 
     @EJB
     MessageBean messageEJB;
@@ -36,6 +37,14 @@ public class ProfileBean {
 
     public void setMyOrders(List<Order> myOrders) {
         this.myOrders = myOrders;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public MessageBean getMessageEJB() {
@@ -56,6 +65,16 @@ public class ProfileBean {
 
     public void init() {
         myOrders = ((Client) sessionController.getUser()).getClientOrders();
+        client = (Client) sessionController.getUser();
+        
+    }
 
+    public void editClientInformation() {
+        System.out.println(client);
+        messageEJB.editCurrentClient(client);
+        sessionController.setUser(client);
+    }
+    public void qwe(){
+        System.out.println("qqq");
     }
 }

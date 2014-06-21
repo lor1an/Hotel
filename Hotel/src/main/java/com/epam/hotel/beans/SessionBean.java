@@ -6,6 +6,9 @@
 package com.epam.hotel.beans;
 
 import com.epam.hotel.model.User;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +32,7 @@ public class SessionBean {
 
     @EJB
     MessageBean messageEJB;
-
+    
     public boolean isLoggedIn() {
         return loggedIn;
     }
@@ -99,8 +102,15 @@ public class SessionBean {
         password = null;
         user = null;
         loggedIn = false;
-
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().
+                    redirect("index.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+    public void some(){
+        System.out.println("dfjslkdfjlksdjflk");
+    }
 
 }

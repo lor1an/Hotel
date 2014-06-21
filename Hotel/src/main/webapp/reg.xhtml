@@ -30,10 +30,10 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
-                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                    <h:graphicImage height="730" width="195" value="/images/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                    <h:graphicImage height="730" width="195"  value="/images/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -41,10 +41,9 @@
                         <p:layoutUnit position="north" >
                             <h:form id="logform">
                                 <h:panelGrid columns="2">
-                                    <h:graphicImage value="/logo.png"></h:graphicImage>
-                                    <h:panelGrid columns="1">
-                                        <p:commandButton value="Login" />
-                                        <p:commandButton value="Register" />
+                                    <h:graphicImage value="/images/logo_1.png"></h:graphicImage>
+                                    <h:panelGrid columns="4">
+                                        <p:commandButton id="mainpage" value="Main Page" action="index?faces-redirect=true" />
                                     </h:panelGrid>
                                 </h:panelGrid>
                             </h:form>
@@ -58,9 +57,9 @@
 
                                     <h:panelGrid columns="3" cellpadding="5">
                                         <p:outputLabel for="name" value="Name:" />
-                                        <p:inputText id="name" value="#{registrationController.name}" required="true" label="Name" requiredMessage="Enter your surname please">
+                                        <p:inputText id="name" value="#{registrationController.name}" required="true" label="Name" requiredMessage="Enter your name please">
                                             <f:validateLength minimum="2" />
-                                            <p:ajax update="msgName" event="keyup" />
+                                            <!---  <p:ajax update="msgName" event="keyup" /> !-->
                                         </p:inputText>
                                         <p:message for="name" id="msgName"/>
 
@@ -72,51 +71,52 @@
                                         <p:message for="surname" id="msgLastname"  />
 
                                         <p:outputLabel for="login" value="Login:" />
-                                        <p:inputText id="login" value="#{registrationController.login}" required="true" label="Login" requiredMessage="Please, invent login">
+                                        <p:inputText id="login" value="#{registrationController.login}" required="true" label="Login" requiredMessage="Please, invent login" validatorMessage="">
                                             <f:validateLength minimum="2" />
                                             <p:ajax update="msgLogin" event="keyup" />
                                         </p:inputText>
                                         <p:message for="login"  id="msgLogin"/>
 
-                                        <h:outputLabel for="pwd1" value="Password: " />
-                                        <p:password id="pwd1" value="#{registrationController.password}" match="pwd2" label="Password 1" required="true" >
+                                        <p:outputLabel for="pwd1" value="Password: " />
+                                        <p:password id="pwd1" value="#{registrationController.password}" match="pwd2" label="Password 1" required="true" requiredMessage="You must enter password">
                                             <p:ajax update="msgPwd1" event="keyup" />
                                         </p:password>
                                         <p:message for="pwd1" id="msgPwd1"/>
 
-                                        <h:outputLabel for="pwd2" value="Confirm password: " />
-                                        <p:password id="pwd2" value="#{registrationController.password}" label="Password 2" required="true" >
+                                        <p:outputLabel for="pwd2" value="Confirm password: " />
+                                        <p:password id="pwd2" value="#{registrationController.password}" label="Password 2" required="true" requiredMessage="Please, confirm password">
                                             <p:ajax update="msgPwd2" event="keyup" />
                                         </p:password>
                                         <p:message for="pwd2" id="msgPwd2" />
 
                                         <p:outputLabel for="phone" value="Phone: " />
-                                        <p:inputMask id="phone" value="#{registrationController.phone}" mask="(999) 999-9999" required="true">
+                                        <p:inputMask id="phone" value="#{registrationController.phone}" mask="(999) 999-9999" required="true" requiredMessage="Please, enter your phone number">
                                             <p:ajax update="msgPhone" event="keyup" />
                                         </p:inputMask>                                        
                                         <p:message for="phone" id="msgPhone" />
 
-                                        <h:outputLabel for="email" value="Email: " />
-                                        <p:inputText id="email" value="#{registrationController.email}" label="email" required="true" validatorMessage="Invalid email format" >
+                                        <p:outputLabel for="email" value="Email: " />
+                                        <p:inputText id="email" value="#{registrationController.email}" label="email" required="true" validatorMessage="Invalid email format" requiredMessage="Please, enter your email">
                                             <f:validateRegex
                                                 pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                                             <p:ajax update="msgEmail" event="keyup" />
                                         </p:inputText>
                                         <p:message for="email" id="msgEmail" />
 
-                                        <h:outputLabel for="city" value="City:" />
-                                        <p:inputText id="city" value="#{registrationController.city}" label="city" required="true" >
+                                        <p:outputLabel for="city" value="City:" />
+                                        <p:inputText id="city" value="#{registrationController.city}" label="city" required="true" requiredMessage="Please, enter your city">
                                             <p:ajax update="msgCity" event="keyup" />
                                         </p:inputText>
                                         <p:message for="city" id="msgCity"/>
 
-                                        <h:outputLabel for="region" value="Region:" />
-                                        <p:selectOneMenu id="console" value="#{registrationController.region}">
+                                        <p:outputLabel for="console" value="Region:" />
+                                        <p:selectOneMenu id="console" value="#{registrationController.region}" required="true" requiredMessage="Choose your region">
                                             <f:selectItem itemLabel="Select Region" itemValue="" />
                                             <f:selectItem itemLabel="Kyiv" itemValue="Kyiv" />
                                             <f:selectItem itemLabel="Kharkiv" itemValue="Kharkiv" />
                                             <f:selectItem itemLabel="Lviv" itemValue="Lviv" />
                                         </p:selectOneMenu>
+                                        <p:message for="console" id="msgRegion"/>
                                     </h:panelGrid>
 
                                     <p:commandButton value="Save" update="panel" actionListener="#{registrationController.save}" icon="ui-icon-check" />

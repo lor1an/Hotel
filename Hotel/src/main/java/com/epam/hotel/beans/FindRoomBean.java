@@ -106,7 +106,7 @@ public class FindRoomBean {
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().
-                    redirect("anotherpage.xhtml");
+                    redirect("freerooms.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
         }

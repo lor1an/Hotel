@@ -111,7 +111,7 @@
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>black-tie</artifactId>
+            <artifactId>hot-sneaks</artifactId>
             <version>1.0.6</version>
         </dependency>
         <dependency>

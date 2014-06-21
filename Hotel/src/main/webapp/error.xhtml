@@ -6,7 +6,46 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+    <style>    
+        body{
+            background-color:ghostwhite
+        }
+        div.ui-layout-unit {
+            padding-top: 0 !important;
+            padding-right:  0 !important;
+            padding-bottom:  0 !important;
+            padding-left:  0 !important;
+        }
+        div.ui-datepicker{
+            font-size:12px!important;
+        } 
+        div.ui-carousel-header select {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        function handleLoginRequest(xhr, status, args) {
+            if (args.validationFailed || !args.loggedIn) {
+                PF('dlg').jq.effect("shake", {times: 5}, 100);
+            }
+            else {
+                PF('dlg').hide();
+                location.reload();
+                $('#loginLink').fadeOut();
+            }
+        }
+        function reload() {
+            location.reload();
+        }
+        function showDialog(loggedIn) {
+            if (!loggedIn) {
+                PF('dlg').show();
+            }
+        }
 
+
+
+    </script>
 
     <f:view contentType="text/html">
         <h:head>
@@ -20,10 +59,10 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
-                    <h:graphicImage height="650" width="170" value="/west.PNG"/>
+                    <h:graphicImage height="730" width="195" value="/images/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage height="650" width="170"  value="/east.PNG"/>
+                    <h:graphicImage height="730" width="195"  value="/images/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -31,29 +70,31 @@
                         <p:layoutUnit position="north">
 
                             <h:panelGrid columns="2">
-                                <h:graphicImage value="/logo.png"></h:graphicImage>
+                                <h:graphicImage value="/images/logo_1.png"></h:graphicImage>
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
+                                    <h:panelGrid columns="3">
+                                        <h:form id="logform">        
+                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}"/>
+                                            <p:commandButton id="regbutton" value="Register" action="/pages/reg?faces-redirect=true" rendered="#{!sessionController.loggedIn}"/>
+                                            <p:commandButton id="mprbutton" value="My Profile" action="/pages/profile?faces-redirect=true" rendered="#{sessionController.loggedIn}"/>
+                                        </h:form>
 
 
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
                             </h:panelGrid>
-
                         </p:layoutUnit>
 
                         <p:layoutUnit position="center">
                             <p:layout>
+                                <p:layoutUnit position="north">
+                                    <h:outputText value="Something goes wrong..."/>
 
+                                </p:layoutUnit>
                                 <p:layoutUnit position="center">
-                                    <p:layout>
-                                        <p:layoutUnit position="west" size="330" > 
-                                        </p:layoutUnit>
-                                        <p:layoutUnit position="east" size="330">
-                                        </p:layoutUnit>
-                                        <p:layoutUnit position="center"  > 
-                                            <h:panelGrid columns="1">
-                                                <h:outputText value="     OOOOOOps! Something goes wrong:(" style="margin: auto"/>
-                                            </h:panelGrid>
-                                            <h:graphicImage value="/2puc.jpg" style="margin: auto"/>
-                                        </p:layoutUnit>>
-                                    </p:layout>
+
                                 </p:layoutUnit>
 
                             </p:layout>

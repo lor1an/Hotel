@@ -21,16 +21,16 @@ and open the template in the editor.
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
-                    <h:graphicImage height="700" width="190" value="/west.PNG"/>
+                    <h:graphicImage height="700" width="190" value="/images/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage height="700" width="190"  value="/east.PNG"/>
+                    <h:graphicImage height="700" width="190"  value="/images/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
                     <h:form id="dtForm">
                         <p:remoteCommand name="rc" action="#{adminClientsBean.meth()}" autoRun="true" rendered="false"/>
-                        
+
                         <p:tabView>
                             <p:tab title="Rooms">
                                 <p:dataTable var="room" value="#{adminRoomBean.rooms}" paginator="true"
@@ -94,10 +94,14 @@ and open the template in the editor.
                                         <h:outputText value="#{order.client.login}"/>
                                     </p:column>
                                     <p:column headerText="From date" sortBy="#{order.fromDate}" filterBy="#{order.fromDate}">
-                                        <h:outputText value="#{order.fromDate}"/>
+                                        <h:outputText value="#{order.fromDate}">
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>
                                     </p:column>
                                     <p:column headerText="To date" sortBy="#{order.toDate}" filterBy="#{order.toDate}">
-                                        <h:outputText value="#{order.toDate}"/>
+                                        <h:outputText value="#{order.toDate}">
+                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText>
                                     </p:column>
                                     <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}">
                                         <h:outputText value="#{order.status}"/>

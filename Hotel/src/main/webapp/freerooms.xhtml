@@ -33,10 +33,10 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
-                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                    <h:graphicImage height="730" width="195" value="/images/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                    <h:graphicImage height="730" width="195"  value="/images/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -44,13 +44,13 @@
                         <p:layoutUnit position="north" >
                             <h:form id="logform">
                                 <h:panelGrid columns="2">
-                                    <h:graphicImage value="/logo.png"></h:graphicImage>
+                                    <h:graphicImage value="/images/logo_1.png"></h:graphicImage>
                                     <h:panelGrid columns="1">
                                         <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
                                         <h:panelGrid columns="2">
                                             <h:form id="logform">          
                                                 <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
-                                                <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
+                                                <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" />
                                                 <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true" rendered="#{!sessionController.loggedIn}"/>
                                                 <p:commandButton id="mainpage" value="Main Page" action="index?faces-redirect=true" />
                                             </h:form>
@@ -85,8 +85,6 @@
                                                         <f:setPropertyActionListener value="#{room}" target="#{orderBuilder.selectedRoom}"/>
                                                         <f:setPropertyActionListener value="ORDERING" target="#{orderBuilder.orderType}"/>
                                                     </p:commandButton>
-
-
                                                     <p:dialog header="Details" widgetVar="detdlg" dynamic="true" resizable="false">
                                                         <p:galleria value="#{imageView.images}" var="image" panelWidth="500" panelHeight="313">
                                                             <p:graphicImage value="/rooms/images/#{image}"  width="500" height="313" />

@@ -67,10 +67,10 @@
 
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
-                    <h:graphicImage height="730" width="195" value="/west.PNG"/>
+                    <h:graphicImage height="730" width="195" value="/images/west.PNG"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="east" size="200">
-                    <h:graphicImage height="730" width="195"  value="/east.PNG"/>
+                    <h:graphicImage height="730" width="195"  value="/images/east.PNG"/>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
@@ -78,18 +78,14 @@
                         <p:layoutUnit position="north">
 
                             <h:panelGrid columns="2">
-                                <h:graphicImage value="/logo.png"></h:graphicImage>
+                                <h:graphicImage value="/images/logo_1.png"></h:graphicImage>
                                 <h:panelGrid columns="1">
                                     <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
                                     <h:panelGrid columns="3">
-                                        <h:form id="logform">          
-
-                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" oncomplete="reload()"/>
+                                        <h:form id="logform">       
+                                            <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}"/>
                                             <p:commandButton  value="Main Page" action="index?faces-redirect=true" />                                            
-
                                         </h:form>
-
-
                                         <p:confirmDialog header="Login" widgetVar="dlg"  appendTo="@(body)" closable="false" message="You must log in to continue. Register if you do not have an account" >
                                             <h:form>
                                                 <p:commandButton  value="Login" onclick="switchDialoges()" />    
@@ -143,7 +139,7 @@
                                         <p:separator/>
                                         <h:panelGrid columns="2" >
                                             <p:commandButton  value="Pay" onclick="PF('payDlg').show();" /> 
-                                            <p:commandButton  value="Cancel" action="anotherpage?faces-redirect=true" /> 
+                                            <p:commandButton  value="Cancel" action="freerooms?faces-redirect=true" /> 
                                         </h:panelGrid>
                                         <p:dialog widgetVar="payDlg" appendTo="@(body)" header="Payment information" resizable="false" modal="true">
                                             <h:form>

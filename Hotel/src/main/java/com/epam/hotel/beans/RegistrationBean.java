@@ -28,6 +28,7 @@ public class RegistrationBean {
 
     @ManagedProperty(value = "#{sessionController}")
     SessionBean sc;
+
     private @EJB
     MessageBean messageEJB;
 
@@ -104,16 +105,8 @@ public class RegistrationBean {
     }
 
     public void save() {
-        Client c = new Client(name, surname, phone, email, name, city, region,
+        Client c = new Client(name, surname, phone, email, city, region,
                 null, login, password);
-        System.out.println(name);
-        System.out.println(surname);
-        System.out.println(login);
-        System.out.println(password);
-        System.out.println(phone);
-        System.out.println(email);
-        System.out.println(city);
-        System.out.println(region);
         messageEJB.createNewClient(c);
         sc.setUser(c);
         sc.setLoggedIn(true);

@@ -18,30 +18,30 @@ import javax.persistence.Query;
 
 @Stateless
 public class MessageBean implements Serializable {
-
+    
     @PersistenceContext(unitName = "COLIBRI")
     private EntityManager manager;
-
+    
     public List<Room> getAllRooms() {
         RoomDAO rr = new RoomDAO(manager);
         return rr.getAllRooms();
     }
-
+    
     public void createNewClient(Client c) {
         ClientDAO cr = new ClientDAO(manager);
         cr.insertClient(c);
     }
-
+    
     public Client findClientByLogin(String login) {
         ClientDAO cr = new ClientDAO(manager);
         return cr.getClientByLogin(login);
     }
-
+    
     public void addOrder(Order o) {
         OrderDAO or = new OrderDAO(manager);
         or.udpateOrder(o);
     }
-
+    
     public List<Room> getFreeRooms(Date from, Date to,
             RoomComfort comfort, Integer bound) {
         RoomDAO rr = new RoomDAO(manager);
@@ -52,7 +52,7 @@ public class MessageBean implements Serializable {
         query.append("SELECT DISTINCT r ");
         query.append("FROM Room r ");
         query.append("WHERE ");
-
+        
         List<String> criteria = new ArrayList<String>();
         if (comfort != null) {
             criteria.add("r.comfort = :comfort");
@@ -84,29 +84,29 @@ public class MessageBean implements Serializable {
         }
         List<Room> secondList;
         secondList = or.getFreeRoomsWithFromOrders(from, to);
-        System.out.println("------------");
-        System.out.println(firstList);
-        System.out.println(secondList);
-
-        System.out.println("------------");
         firstList.removeAll(secondList);
         return firstList;
-
+        
     }
-
+    
     public List<Order> getAllOrders() {
         OrderDAO or = new OrderDAO(manager);
         return or.getAllOrders();
-
+        
     }
-
+    
     public List<Client> getAllClients() {
         ClientDAO clientDAO = new ClientDAO(manager);
         return clientDAO.getAllClients();
     }
-
+    
     public List<Order> getOrdersByClient(Client client) {
         OrderDAO or = new OrderDAO(manager);
         return or.getAllClientOrders();
+    }
+    
+    public void editCurrentClient(Client client) {
+        ClientDAO clientDAO = new ClientDAO(manager);
+        clientDAO.udpateClient(client);
     }
 }
