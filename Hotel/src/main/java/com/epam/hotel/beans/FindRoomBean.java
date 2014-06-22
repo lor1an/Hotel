@@ -27,6 +27,13 @@ public class FindRoomBean {
     private String comfort;
     private Date today = new Date();
     List<Room> freeRooms;
+    private int recordsPerPage = 2;
+    private int countOfRecordsByRequest;
+    private int currentPage = 1;
+    private boolean nothingFound;
+    private RoomComfort comfortToSend;
+    private Integer boundsToSend;
+    private int lastPage;
 
     @EJB
     MessageBean messageEJB;
@@ -87,9 +94,48 @@ public class FindRoomBean {
         this.freeRooms = freeRooms;
     }
 
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getRecordsPerPage() {
+        return recordsPerPage;
+    }
+
+    public void setRecordsPerPage(int recordsPerPage) {
+        this.recordsPerPage = recordsPerPage;
+    }
+
+    public int getCountOfRecordsByRequest() {
+        return countOfRecordsByRequest;
+    }
+
+    public void setCountOfRecordsByRequest(int countOfRecordsByRequest) {
+        this.countOfRecordsByRequest = countOfRecordsByRequest;
+    }
+
+    public boolean isNothingFound() {
+        return nothingFound;
+    }
+
+    public void setNothingFound(boolean nothingFound) {
+        this.nothingFound = nothingFound;
+    }
+
+    public int getLastPage() {
+        return lastPage;
+    }
+
+    public void setLastPage(int lastPage) {
+        this.lastPage = lastPage;
+    }
+
     public void click() {
-        RoomComfort comfortToSend;
-        Integer boundsToSend;
+
         if ("NOSELECT".equals(comfort) || comfort == null) {
             comfortToSend = null;
         } else {
@@ -100,17 +146,62 @@ public class FindRoomBean {
         } else {
             boundsToSend = new Integer(bounds);
         }
-        System.out.println(from);
-        System.out.println(to);
-        freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend);
 
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().
-                    redirect("freerooms.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
+        Object temp = messageEJB.getCountOfFreeRooms(from, to, comfortToSend, boundsToSend);
+        if (temp == null) {
+            nothingFound = true;
+        } else {
+            countOfRecordsByRequest = new Integer(temp.toString());
+            findLastPage();
+            firstPage();
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().
+                        redirect("freerooms.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(FindRoomBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
+    }
+
+    public void recalculate() {
+        findLastPage();
+        firstPage();
+    }
+
+    public void firstPage() {
+        currentPage = 1;
+        freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend,
+                recordsPerPage, 0);
+    }
+
+    public void prevPage() {
+        currentPage--;
+        freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend,
+                recordsPerPage, recordsPerPage * (currentPage - 1));
+    }
+
+    public void nextPage() {
+        currentPage++;
+        freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend,
+                recordsPerPage, recordsPerPage * (currentPage - 1));
+
+    }
+
+    public void lastPage() {
+        currentPage = lastPage;
+        freeRooms = messageEJB.getFreeRooms(from, to, comfortToSend, boundsToSend,
+                recordsPerPage, recordsPerPage * (currentPage - 1));
+    }
+
+    public void findLastPage() {
+        if (countOfRecordsByRequest <= recordsPerPage) {
+            lastPage = 1;
+        }
+        if (countOfRecordsByRequest % recordsPerPage == 0) {
+            lastPage = countOfRecordsByRequest / recordsPerPage;
+        }
+        lastPage = (countOfRecordsByRequest / recordsPerPage) + 1;
     }
 
     public void clear() {
@@ -119,6 +210,7 @@ public class FindRoomBean {
         freeRooms = null;
         from = null;
         to = null;
+        currentPage = 0;
     }
 
 }

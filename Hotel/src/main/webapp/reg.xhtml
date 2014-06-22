@@ -59,7 +59,7 @@
                                         <p:outputLabel for="name" value="Name:" />
                                         <p:inputText id="name" value="#{registrationController.name}" required="true" label="Name" requiredMessage="Enter your name please">
                                             <f:validateLength minimum="2" />
-                                            <!---  <p:ajax update="msgName" event="keyup" /> !-->
+                                            <p:ajax update="msgName" event="keyup" /> 
                                         </p:inputText>
                                         <p:message for="name" id="msgName"/>
 

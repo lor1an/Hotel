@@ -58,9 +58,6 @@ public class Order implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Client client;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Manager manager;
-
     @Enumerated(EnumType.ORDINAL)
     private OrderType type;
 
@@ -87,10 +84,6 @@ public class Order implements Serializable {
 
     public Client getClient() {
         return client;
-    }
-
-    public Manager getManager() {
-        return manager;
     }
 
     public OrderType getType() {
@@ -123,10 +116,6 @@ public class Order implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
     }
 
     public void setType(OrderType type) {

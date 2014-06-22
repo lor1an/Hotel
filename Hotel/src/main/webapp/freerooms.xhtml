@@ -19,8 +19,18 @@
         div.ui-carousel-header select {
             display: none;
         }
-    </style>
+        div.ui-layout-unit-content.navTable{
+            text-align: center;
+        }
 
+    </style>
+    <script>
+        goToBottom(){
+            var winWidth = document.body.clientWidth;
+            var winHeight = document.body.clientHeight;
+            window.scrollTo(winWidth, winHeight);
+        }
+    </script>
     <f:view contentType="text/html">
         <h:head>
             <title>
@@ -30,7 +40,7 @@
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
         </h:head>
 
-        <h:body>
+        <h:body onload="goToBottom()">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west" size="200" > 
                     <h:graphicImage height="730" width="195" value="/images/west.PNG"/>
@@ -61,16 +71,30 @@
                         </p:layoutUnit>
 
                         <p:layoutUnit position="center">
-                            <h:form> 
-                                <p:dataScroller value="#{findRoomController.freeRooms}" var="room" chunkSize="10">
-                                    <f:facet name="header">
-                                        Free Rooms
-                                    </f:facet>
 
+                            <h:form id="formrooms"> 
+                                <h:outputText value="Room isn't found by given criterias." rendered="#{findRoomController.nothingFound}" />
+                                <h:panelGrid id="topNavTable" columns="7" styleClass="navTable" rendered="#{!findRoomController.nothingFound}">
+                                    <h:outputText value=" (#{findRoomController.currentPage} of #{findRoomController.lastPage}) " style="font-weight: bold"/>
+                                    <p:commandButton value="First page" action="#{findRoomController.firstPage()}" update="formrooms" icon="ui-icon-arrowthickstop-1-w" disabled="#{findRoomController.currentPage==1}"/>
+                                    <p:commandButton value="Prev" action="#{findRoomController.prevPage()}" update="formrooms" icon="ui-icon-arrowthick-1-w" disabled="#{findRoomController.currentPage==1}" />
+                                    <p:commandButton value="Next" action="#{findRoomController.nextPage()}" update="formrooms" icon="ui-icon-arrowthick-1-e" iconPos="right" disabled="#{findRoomController.currentPage==findRoomController.lastPage}"/>
+                                    <p:commandButton value="Last page" action="#{findRoomController.lastPage()}" update="formrooms" icon="ui-icon-arrowthickstop-1-e" iconPos="right" disabled="#{findRoomController.currentPage==findRoomController.lastPage}"/>
+                                    <p:selectOneMenu id="recordsPerPage" value="#{findRoomController.recordsPerPage}" >
+                                        <f:selectItem itemLabel="2" itemValue="2" />
+                                        <f:selectItem itemLabel="4" itemValue="4" />
+                                        <f:selectItem itemLabel="8" itemValue="8" />
+                                        <p:ajax event="change"  oncomplete="recalculate()"/>
+                                    </p:selectOneMenu>
+                                    <p:remoteCommand name="recalculate" action="#{findRoomController.recalculate()}" update="formrooms"/>
+                                </h:panelGrid>
+                                <p:dataScroller id="dsrooms" value="#{findRoomController.freeRooms}" var="room" chunkSize="10" rendered="#{!findRoomController.nothingFound}">
                                     <h:panelGrid columns="2" style="width:100%" >
+
                                         <p:graphicImage value="/rooms/images/room#{room.id}.jpg" height="200" width="350" /> 
 
                                         <p:outputPanel>
+
                                             <h:panelGrid columns="1" cellpadding="5">
                                                 <h:outputText value="One King or Queen bed. Large work desk. Business travelers and couples will enjoy this room's solid wood. Each room accommodation includes an oversized chair with ottoman, in-room safe, flat-screen TV with a full selection of HD programming, bathtub or glass shower. Sleep soundly in comfortable bedding with Hilton's Serenity mattress, feather and down pillows, and luxurious striped linens." />
 
@@ -85,6 +109,7 @@
                                                         <f:setPropertyActionListener value="#{room}" target="#{orderBuilder.selectedRoom}"/>
                                                         <f:setPropertyActionListener value="ORDERING" target="#{orderBuilder.orderType}"/>
                                                     </p:commandButton>
+
                                                     <p:dialog header="Details" widgetVar="detdlg" dynamic="true" resizable="false">
                                                         <p:galleria value="#{imageView.images}" var="image" panelWidth="500" panelHeight="313">
                                                             <p:graphicImage value="/rooms/images/#{image}"  width="500" height="313" />
@@ -96,6 +121,7 @@
                                         </p:outputPanel>
                                     </h:panelGrid>
                                 </p:dataScroller>
+
                             </h:form>
                         </p:layoutUnit>
                     </p:layout>
