@@ -8,10 +8,7 @@
       xmlns:p="http://primefaces.org/ui">
     <style>    
         div.ui-layout-unit {
-            padding-top: 0 !important;
-            padding-right:  0 !important;
-            padding-bottom:  0 !important;
-            padding-left:  0 !important;
+            padding: 0;
         }
         div.ui-datepicker{
             font-size:12px!important;
@@ -21,7 +18,10 @@
         }
         div.ui-layout-unit-content.navTable{
             text-align: center;
-        }
+        }        
+        /*        #formrooms table:first-child {
+                    margin: 0 auto;
+                }*/
 
     </style>
     <script>
@@ -52,12 +52,12 @@
                 <p:layoutUnit position="center">
                     <p:layout>
                         <p:layoutUnit position="north" >
-                            <h:form id="logform">
+                            <h:form id="logform" >
                                 <h:panelGrid columns="2">
                                     <h:graphicImage value="/images/logo_1.png"></h:graphicImage>
                                     <h:panelGrid columns="1">
                                         <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
-                                        <h:panelGrid columns="2">
+                                        <h:panelGrid columns="2" >
                                             <h:form id="logform">          
                                                 <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
                                                 <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}" />
@@ -74,7 +74,7 @@
 
                             <h:form id="formrooms"> 
                                 <h:outputText value="Room isn't found by given criterias." rendered="#{findRoomController.nothingFound}" />
-                                <h:panelGrid id="topNavTable" columns="7" styleClass="navTable" rendered="#{!findRoomController.nothingFound}">
+                                <h:panelGrid style="margin: 0 auto;" id="topNavTable" columns="7" styleClass="navTable" rendered="#{!findRoomController.nothingFound}">
                                     <h:outputText value=" (#{findRoomController.currentPage} of #{findRoomController.lastPage}) " style="font-weight: bold"/>
                                     <p:commandButton value="First page" action="#{findRoomController.firstPage()}" update="formrooms" icon="ui-icon-arrowthickstop-1-w" disabled="#{findRoomController.currentPage==1}"/>
                                     <p:commandButton value="Prev" action="#{findRoomController.prevPage()}" update="formrooms" icon="ui-icon-arrowthick-1-w" disabled="#{findRoomController.currentPage==1}" />

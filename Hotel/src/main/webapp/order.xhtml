@@ -143,12 +143,16 @@
                                         </h:panelGrid>
                                         <p:dialog widgetVar="payDlg" appendTo="@(body)" header="Payment information" resizable="false" modal="true">
                                             <h:form>
+
                                                 <h:panelGrid  columns="2" >
+
                                                     <h:outputText value="Card number:"/>
-                                                    <h:inputText/>
+                                                    <p:inputMask id="cardNumber" mask="9999 9999 9999 9999" />
+
+
                                                     <h:panelGrid  columns="2">
                                                         <h:outputText value="Expiration: "/>
-                                                        <p:selectOneMenu value="Select month">
+                                                        <p:selectOneMenu value="Select month" > 
                                                             <c:forEach var="i" begin="0" end="#{orderBuilder.months.size()-1}">
                                                                 <f:selectItem  itemLabel="#{orderBuilder.months.get(i)}" />
                                                             </c:forEach>                                                            

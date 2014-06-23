@@ -74,12 +74,11 @@
                                 <h:panelGrid columns="1">
                                     <h:outputText value="You are log-in as: #{sessionController.user.login}" rendered="#{sessionController.loggedIn}" style="font: 800"/>
                                     <h:panelGrid columns="3">
-                                        <h:form id="logform">        
+                                        <h:form id="logform" >        
                                             <p:commandButton id="logbutton" value="Login" onclick="PF('dlg').show();" rendered="#{!sessionController.loggedIn}"/>
                                             <p:commandButton id="logoutbutton" value="Logout" action="#{sessionController.logout()}" rendered="#{sessionController.loggedIn}"/>
                                             <p:commandButton id="regbutton" value="Register" action="reg?faces-redirect=true" rendered="#{!sessionController.loggedIn}"/>
                                             <p:commandButton id="mprbutton" value="My Profile" action="profile?faces-redirect=true" rendered="#{sessionController.loggedIn}"/>
-
                                         </h:form>
 
                                         <p:dialog header="Login" widgetVar="dlg" resizable="false" appendTo="@(body)" modal="true" closable="false" >
@@ -119,11 +118,13 @@
 
                                         <h:panelGrid columns="7" cellpadding="5">
                                             <p:outputLabel for="from" value="Arrival:" />
-                                            <p:calendar id="from" value="#{findRoomController.from}"  required="true" requiredMessage="Please enter arrival date" mindate="#{findRoomController.today}" readonlyInput="true"  >
+                                            <p:calendar id="from" value="#{findRoomController.from}"  required="true" requiredMessage="Please enter arrival date" mindate="#{findRoomController.today}" pattern="dd-MM-yyyy" mask="true" readonlyInput="true"  >
+                                                <f:convertDateTime pattern="dd-MM-yyyy" />
                                                 <p:ajax event="dateSelect" update=":formdate:to"/>
                                             </p:calendar>
                                             <p:outputLabel for="to" value="Departure:"/>
-                                            <p:calendar id="to" value="#{findRoomController.to}"  required="true" requiredMessage="Please enter departure date" mindate="#{findRoomController.from}"   readonlyInput="true"/>
+                                            <p:calendar id="to" value="#{findRoomController.to}"  required="true" requiredMessage="Please enter departure date" mindate="#{findRoomController.from}" pattern="dd-MM-yyyy" mask="true" readonlyInput="true">
+                                                <f:convertDateTime pattern="dd-MM-yyyy" /></p:calendar>
                                             <p:selectOneMenu id="personmenu" value="#{findRoomController.bounds}">
                                                 <f:selectItem id="qw1" itemLabel="Persons" itemValue="NOSELECT" />
                                                 <f:selectItem id="qw2" itemLabel="1" itemValue="1" />

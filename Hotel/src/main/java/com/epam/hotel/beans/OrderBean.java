@@ -8,6 +8,7 @@ import com.epam.hotel.model.enums.OrderType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,7 +147,7 @@ public class OrderBean {
         payment = selectedRoom.getCost() * dayCount;
         fromDate = findRoomController.getFrom().toString().substring(0, 10);
         toDate = findRoomController.getTo().toString().substring(0, 10);
-        System.out.println(client);
+
     }
 
     public void makeOrder() {

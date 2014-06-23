@@ -29,26 +29,35 @@ and open the template in the editor.
 
                 <p:layoutUnit position="center">
                     <h:form id="dtForm">
-                        <p:remoteCommand name="rc" action="#{adminClientsBean.meth()}" autoRun="true" rendered="false"/>
 
-                        <p:tabView>
+                        <p:tabView id="tabV">
                             <p:tab title="Rooms">
-                                <p:dataTable var="room" value="#{adminRoomBean.rooms}" paginator="true"
-                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                                    <p:column headerText="ID" sortBy="#{room.id}" filterBy="#{room.id}">
-                                        <h:outputText value="#{room.id}"/>
+                                <p:dataTable
+                                    var="element"
+                                    value="#{adminRoomsBean.model}"
+                                    lazy="true"
+                                    paginator="true"
+                                    rows="4"
+                                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                    rowsPerPageTemplate="2,4,8"
+                                    id="rooms">
+
+                                    <p:column sortBy="#{element.id}" filterBy="#{element.id}" filterMatchMode="exact" headerText="ID">                
+                                        <h:outputText value="#{element.id}" />
                                     </p:column>
-                                    <p:column headerText="Number" sortBy="#{room.roomNumber}" filterBy="#{room.roomNumber}">
-                                        <h:outputText value="#{room.roomNumber}"/>
+                                    <p:column sortBy="#{element.capacity}" filterBy="#{element.capacity}" filterMatchMode="exact" headerText="Capacity">                
+                                        <h:outputText value="#{element.capacity}" />
                                     </p:column>
-                                    <p:column headerText="Capacity" sortBy="#{room.capacity}" filterBy="#{room.capacity}">
-                                        <h:outputText value="#{room.capacity}"/>
+                                    <p:column sortBy="#{element.cost}" filterBy="#{element.cost}" filterMatchMode="exact" headerText="Cost">                
+                                        <h:outputText value="#{element.cost}" />
                                     </p:column>
-                                    <p:column headerText="Cost" sortBy="#{room.cost}" filterBy="#{room.cost}">
-                                        <h:outputText value="#{room.cost}"/>
+                                    <p:column sortBy="#{element.roomNumber}" filterBy="#{element.roomNumber}" filterMatchMode="exact" headerText="Room number">                
+                                        <h:outputText value="#{element.roomNumber}" />
                                     </p:column>
-                                    <p:column headerText="Comfort" sortBy="#{room.comfort}" filterBy="#{room.comfort}">
-                                        <h:outputText value="#{room.comfort}"/>
+                                    <p:column sortBy="#{element.comfort}"  filterBy="#{element.comfort}" filterMatchMode="exact" headerText="Comfort">                
+                                        <h:outputText value="#{element.comfort}" >
+                                            <f:converter converterId="comfortConverter" />
+                                        </h:outputText>
                                     </p:column>
                                 </p:dataTable>
                                 <h:panelGrid columns="4">
@@ -56,61 +65,92 @@ and open the template in the editor.
                                     <p:commandButton value="Delete" />
                                 </h:panelGrid>
                             </p:tab>
-                            <p:tab title="Client">
-                                <p:dataTable var="client" value="#{adminClientsBean.clients}" paginator="true"
-                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                                    <p:column headerText="ID" sortBy="#{client.id}" filterBy="#{client.id}">
-                                        <h:outputText value="#{client.id}"/>
-                                    </p:column>
-                                    <p:column headerText="Name" sortBy="#{client.name}" filterBy="#{client.name}">
-                                        <h:outputText value="#{client.name}"/>
-                                    </p:column>
-                                    <p:column headerText="Surname" sortBy="#{client.surname}" filterBy="#{client.surname}">
-                                        <h:outputText value="#{client.surname}"/>
-                                    </p:column>
-                                    <p:column headerText="Login" sortBy="#{client.login}" filterBy="#{client.login}">
-                                        <h:outputText value="#{client.login}"/>
-                                    </p:column>
-                                    <p:column headerText="Phone" sortBy="#{client.phone}" filterBy="#{client.phone}">
-                                        <h:outputText value="#{client.phone}"/>
-                                    </p:column>
-                                    <p:column headerText="City" sortBy="#{client.city}" filterBy="#{client.city}">
-                                        <h:outputText value="#{client.city}"/>
-                                    </p:column>
-                                </p:dataTable>
-                                <h:panelGrid columns="4">
-                                    <p:commandButton value="Add" />
-                                    <p:commandButton value="Delete" />
-                                </h:panelGrid>
+                            <p:tab title="Clients">
+
                             </p:tab>
 
-                            <p:tab title="Orders">
-                                <p:dataTable var="order" value="#{adminOrdersBean.orders}" paginator="true"
-                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                                    <p:column headerText="ID" sortBy="#{order.id}" filterBy="#{order.id}">
-                                        <h:outputText value="#{order.id}"/>
+                            <p:tab title="Orders" id="tableOrders">
+                                <p:dataTable
+                                    var="order"
+                                    value="#{adminOrdersBean.model}"
+                                    lazy="true"
+                                    paginator="true"
+                                    rows="4"
+                                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                    rowsPerPageTemplate="2,4,8"
+                                    id="orders"
+                                    selectionMode="single"
+                                    selection="#{adminOrdersBean.selectedOrder}"
+                                    rowKey="#{order.id}">
+
+                                    <f:facet name="footer">
+                                        <p:commandButton process="orders" update=":dtForm:tabV:innerForm:multiCarDetail" icon="ui-icon-search" value="View" oncomplete="PF('multiCarDialog').show()" />
+                                    </f:facet>
+
+                                    <p:column sortBy="#{order.id}" filterBy="#{order.id}" filterMatchMode="exact" headerText="ID">                
+                                        <h:outputText value="#{order.id}" />
                                     </p:column>
-                                    <p:column headerText="Client login" sortBy="#{order.client.login}" filterBy="#{order.client.login}">
-                                        <h:outputText value="#{order.client.login}"/>
+
+                                    <p:column sortBy="#{order.client.login}" filterBy="#{order.client.login}" filterMatchMode="exact" headerText="Client login">                
+                                        <h:outputText value="#{order.client.login}" />
                                     </p:column>
-                                    <p:column headerText="From date" sortBy="#{order.fromDate}" filterBy="#{order.fromDate}">
-                                        <h:outputText value="#{order.fromDate}">
-                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+
+                                    <p:column sortBy="#{order.room.id}" filterBy="#{order.room.id}" filterMatchMode="exact" headerText="Room id">                
+                                        <h:outputText value="#{order.room.id}" />
+                                    </p:column>
+
+                                    <p:column sortBy="#{order.fromDate}" filterBy="#{order.fromDate}" filterMatchMode="exact" headerText="From date">                
+                                        <h:outputText value="#{order.fromDate}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="To date" sortBy="#{order.toDate}" filterBy="#{order.toDate}">
+
+                                    <p:column sortBy="#{order.toDate}" filterBy="#{order.toDate}" filterMatchMode="exact" headerText="To date">                
                                         <h:outputText value="#{order.toDate}">
-                                            <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}">
-                                        <h:outputText value="#{order.status}"/>
+
+                                    <p:column sortBy="#{order.status}" filterBy="#{order.status}" filterMatchMode="exact" headerText="Status">                
+                                        <h:outputText value="#{order.status}">
+                                            <f:converter converterId="statusConverter" />
+                                        </h:outputText>
                                     </p:column>
+
+                                    <p:column sortBy="#{order.payment}" filterBy="#{order.payment}" filterMatchMode="exact" headerText="Payment">                
+                                        <h:outputText value="#{order.payment}$"/>
+                                    </p:column>
+
                                 </p:dataTable>
-                                <h:panelGrid columns="4">
-                                    <p:commandButton value="Add" />
-                                    <p:commandButton value="Delete" />
-                                </h:panelGrid>
+
+                                <p:dialog header="Selected order" widgetVar="multiCarDialog" modal="true" resizable="false"  appendTo="@(body)" dynamic="true" >
+                                    <h:form id="innerForm">
+                                        <p:outputPanel id="multiCarDetail" style="text-align:center;">
+                                            <p:panelGrid columns="2" >
+                                                <h:outputText value="Order id: "/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.id} " style="display:block"/>  
+                                                <h:outputText value="Client login: "/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.client.login}"/>
+                                                <h:outputText value="From date:"/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.fromDate}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/> 
+                                                </h:outputText>
+                                                <h:outputText value="To date:"/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.toDate}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/> 
+                                                </h:outputText>
+                                                <h:outputText value="Room id"/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.room.id}"/>
+                                                <h:outputText value="Payment:"/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.payment}$"/>
+                                                <h:outputText value="Status:"/>
+                                                <h:outputText value="#{adminOrdersBean.selectedOrder.status}"/>
+                                            </p:panelGrid>
+                                            <p:commandButton value="Change" action="#{adminOrdersBean.tuc()}" process="@this" oncomplete="PF('multiCarDialog').hide()"/>
+                                        </p:outputPanel>
+
+                                    </h:form>
+                                </p:dialog>
                             </p:tab>
 
 

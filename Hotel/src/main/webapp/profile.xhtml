@@ -58,12 +58,12 @@ and open the template in the editor.
 
                                             <p:column headerText="From date" sortBy="#{order.fromDate}" filterBy="#{order.fromDate}">
                                                 <h:outputText value="#{order.fromDate}">
-                                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
                                                 </h:outputText>
                                             </p:column>
                                             <p:column headerText="To date" sortBy="#{order.toDate}" filterBy="#{order.toDate}">
                                                 <h:outputText value="#{order.toDate}">
-                                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
                                                 </h:outputText>
                                             </p:column>
                                             <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}">

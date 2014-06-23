@@ -27,7 +27,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Room.getAllRooms", query = "SELECT r FROM Room r"),
     @NamedQuery(name = "Room.getRoomById", query = "SELECT r FROM Room r "
-            + "WHERE r.id=:id"),
+            + "WHERE r.id=:id "),
     @NamedQuery(name = "Room.getRoomsNoOpenOrders", query = "SELECT r  FROM Room r"
             + " WHERE EXISTS"
             + "(SELECT o.room from Order o WHERE o.status =:status)"),
